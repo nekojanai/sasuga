@@ -80,7 +80,7 @@
               "apps/nobs/tsconfig.app.json",
               "apps/nobs/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/nobs/**"]
+            "exclude": ["**/node_modules/**", "!apps/nobs/**/*"]
           }
         },
         "test": {
@@ -116,7 +116,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/nobs-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/nobs-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/nobs-e2e/**/*"]
           }
         }
       }
@@ -164,7 +164,7 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
+            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
           }
         },
         "test": {
@@ -190,7 +190,7 @@
               "libs/api-interfaces/tsconfig.lib.json",
               "libs/api-interfaces/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
+            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
           }
         },
         "test": {

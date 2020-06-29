@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
+    "ng": "nx",
     "nx": "nx",
     "start": "ng serve",
     "build": "ng build",
@@ -25,7 +25,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points && node ./decorate-angular-cli.js"
   },
   "private": true,
   "dependencies": {
@@ -48,7 +48,7 @@
     "@nestjs/typeorm": "^7.1.0",
     "@nestjsx/crud": "^4.6.2",
     "@nestjsx/crud-typeorm": "^4.6.2",
-    "@nrwl/angular": "9.2.3",
+    "@nrwl/angular": "9.4.5",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "core-js": "^2.5.4",
@@ -69,11 +69,11 @@
     "@angular/language-service": "^9.1.11",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.8.3",
-    "@nrwl/cypress": "9.2.3",
-    "@nrwl/jest": "9.2.3",
-    "@nrwl/nest": "9.2.3",
-    "@nrwl/node": "9.2.3",
-    "@nrwl/workspace": "9.2.3",
+    "@nrwl/cypress": "9.4.5",
+    "@nrwl/jest": "9.4.5",
+    "@nrwl/nest": "9.4.5",
+    "@nrwl/node": "9.4.5",
+    "@nrwl/workspace": "9.4.5",
     "@types/jest": "25.1.4",
     "@types/node": "^12.12.47",
     "@types/passport-jwt": "^3.0.3",
@@ -84,10 +84,11 @@
     "eslint": "6.8.0",
     "jest": "25.2.3",
     "jest-preset-angular": "8.1.2",
-    "prettier": "1.19.1",
+    "prettier": "2.0.5",
     "ts-jest": "^26.1.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "eslint-plugin-cypress": "^2.10.3"
   }
 }
