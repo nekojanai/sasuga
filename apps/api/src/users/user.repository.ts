@@ -7,6 +7,12 @@ import * as Crypto from 'crypto';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
+  findOneAndValidateStreamKey(streamkey: string) {
+    return from(this.findOne({streamkey})).pipe(
+      map(user => user ? user : undefined)
+    );
+  }
+
   findOneAndValidateCredentials(name: string, password: string) {
     return from(this.findOne({name})).pipe(
       map(user => user && user.password === this.hashPassword(password) ? user : undefined)

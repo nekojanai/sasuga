@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { from } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
@@ -15,6 +14,10 @@ export class UsersService extends TypeOrmCrudService<User> {
     public repo: UserRepository
   ) {
     super(repo);
+  }
+
+  isStreamkeyValid(streamkey: string) {
+    return this.repo.findOneAndValidateStreamKey(streamkey);
   }
 
   validate(name: string, password: string) {

@@ -4,6 +4,7 @@ import { Exclude } from 'class-transformer';
 import { UsernameTransformer } from './username.transformer';
 import { PasswordTransformer } from './password.transformer';
 import { ApiHideProperty } from '@nestjs/swagger';
+import { StreamKeyTransformer } from './streamkey.transformer';
 
 @Entity()
 export class User implements IUser {
@@ -28,5 +29,8 @@ export class User implements IUser {
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  @Column({ length: 256, transformer: new StreamKeyTransformer() })
+  streamkey: string;
 
 }

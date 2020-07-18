@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { AuthModule } from './auth/auth.module';
 import { InstanceConfigModule } from './instance-config/instance-config.module';
+import { RTMPModule } from './rtmp/rtmp.module';
+import { CustomLoggerModule } from './custom-logger/custom-logger.module';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { InstanceConfigModule } from './instance-config/instance-config.module';
     }),
     DatabaseModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    RTMPModule,
+    CustomLoggerModule
   ],
   controllers: [],
   providers: [
