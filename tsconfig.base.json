@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@sasuga/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@sasuga/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@sasuga/remotedata": ["libs/remotedata/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

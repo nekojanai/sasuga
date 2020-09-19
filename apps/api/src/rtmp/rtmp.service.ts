@@ -17,6 +17,8 @@ export class RTMPService {
 
   init () {
     // actually deny access when no user with given streamkey exists.
+    // I need to come back and check how to get a list of currently streaming users from the node-media-server api
+    // actually I would rather have it not provide it's own rest api and choose myself what information it provides
 
     const nms = new NodeMediaServer(config.rtmp_server);
     nms.on('prePublish', async (id, StreamPath, args) => {

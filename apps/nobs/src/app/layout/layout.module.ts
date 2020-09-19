@@ -1,13 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutComponent } from './layout.component';
+import { HeaderComponent } from './header/header.component';
+import { MainComponent } from './main/main.component';
+import { SeperatorComponent } from './seperator/seperator.component';
+import { RouterModule } from '@angular/router';
+import { OverlayComponent } from './overlay/overlay.component';
 
 
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    HeaderComponent,
+    MainComponent,
+    SeperatorComponent,
+    OverlayComponent
+  ],
+  exports: [
+    HeaderComponent,
+    MainComponent,
+    SeperatorComponent,
+    OverlayComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ]
 })
 export class LayoutModule { }

@@ -1,0 +1,19 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <p>you are (invisible)</p>
+  <label>
+    usr
+    <input name="username" type="text" placeholder="usr..." formControlName="username"/>
+  </label>
+  <label>
+    key
+    <input name="password" type="password" placeholder="key..." formControlName="password"/>
+  </label>
+  <p>
+    <button  type="submit"  [disabled]="!loginForm.valid">< go visible ></button>
+  </p>
+  <p>
+    loginForm <br>
+    value: {{ loginForm.value | json }}<br>
+    status: {{ loginForm.status }}
+  </p>
+</form>
