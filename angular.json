@@ -222,7 +222,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/remotedata/jest.config.js",
-            "tsConfig": "libs/remotedata/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
