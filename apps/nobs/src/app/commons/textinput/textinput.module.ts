@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from './btn.component';
+import { TextinputComponent } from './textinput.component';
 
 
 
 @NgModule({
   declarations: [
-    BtnComponent
+    TextinputComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    BtnComponent
+    TextinputComponent
   ]
 })
-export class BtnModule { }
+export class TextinputModule { }

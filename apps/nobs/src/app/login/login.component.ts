@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Loading } from '@sasuga/remotedata';
+import { AppState } from '../state/app.state';
+import { TokenActions } from '../state/token';
 
 @Component({
   selector: 'sasuga-login',
@@ -13,15 +17,18 @@ export class LoginComponent implements OnInit {
     password: new FormControl('',[Validators.required])
   });
 
-  btnSnd = new Audio('./assets/btn_snd_v3.wav');
+  loginState$ = undefined;
+  
+  constructor(
+    private store: Store<AppState>
+  ) {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loginState$ = this.store.select(state => state.tokenState);
+  }
 
   onSubmit(): void {
-    console.log( this.loginForm.value );
-    this.btnSnd.play();
+    this.store.dispatch(TokenActions.login({ credentials: this.loginForm.value }));
   }
 
 }

@@ -37,7 +37,7 @@ module.exports = (config, context) => {
 const addSwagger = (config) => {
   const rule = config.module.rules
     // tslint:disable-next-line: no-shadowed-variable
-    .find(rule => rule.loader === 'ts-loader');
+    .find(rule => rule.loader);
   if (!rule)
     throw new Error('no ts-loader rule found');
   rule.options = {

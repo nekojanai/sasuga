@@ -5,6 +5,7 @@ import { MainComponent } from './main/main.component';
 import { SeperatorComponent } from './seperator/seperator.component';
 import { RouterModule } from '@angular/router';
 import { OverlayComponent } from './overlay/overlay.component';
+import { BtnModule } from '../commons/btn/btn.module';
 
 
 
@@ -23,7 +24,8 @@ import { OverlayComponent } from './overlay/overlay.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    BtnModule
   ]
 })
 export class LayoutModule { }

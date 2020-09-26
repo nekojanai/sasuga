@@ -1,0 +1,8 @@
+@import 'variables';
+
+:host {
+  color: $text-on-aqua-primary-color;
+  border: 5px inset $aqua-primary-color;
+  background-color: $aqua-secondary-color;
+  outline: none;
+}

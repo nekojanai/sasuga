@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from './btn.component';
+import { SettingsComponent } from './settings.component';
 
 
 
 @NgModule({
   declarations: [
-    BtnComponent
+    SettingsComponent
   ],
   imports: [
     CommonModule
-  ],
-  exports: [
-    BtnComponent
   ]
 })
-export class BtnModule { }
+export class SettingsModule { }

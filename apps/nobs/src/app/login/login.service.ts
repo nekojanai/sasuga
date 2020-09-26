@@ -1,21 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ILoginDto } from '@sasuga/api-interfaces';
-import { Failure } from '@sasuga/remotedata';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ILoginDto, ILoginResponseDto } from '@sasuga/api-interfaces';
 
 @Injectable()
 export class LoginService {
 
-  loginBaseRoute = 'localhost:3333/api/v1/login';
+  private loginBaseRoute = 'localhost:3333/api/v1/login';
 
   constructor(
     private http: HttpClient
   ) {}
-
-  login(credentials: ILoginDto): Observable<string> {
-    throw new Error('Not implemented');
-    return of('');
+  // TODO: finish up this method, something is missing
+  login(credentials: ILoginDto): Observable<ILoginResponseDto> {
+    return this.http.post<ILoginResponseDto>(this.loginBaseRoute, credentials)
+      .pipe(
+        tap(console.log)
+      );
   }
 
 }

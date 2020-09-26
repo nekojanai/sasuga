@@ -1,41 +1,7 @@
-@import 'variables';
-
 :host {
   form {
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    input[type=text], input[type=password] {
-      color: $text-on-aqua-primary-color;
-      border: 5px inset $aqua-primary-color;
-      background-color: $aqua-secondary-color;
-      outline: none;
-    }
-    button[type=submit] {
-      color: $text-on-aqua-primary-color;
-      border: 5px outset $aqua-primary-color;
-      background-color: $aqua-secondary-color;
-      outline: none;
-      cursor: pointer;
-      &:hover {
-        color: $text-on-aqua-secondary-color;
-        border: 5px inset $aqua-secondary-color;
-      }
-      &.active {
-        color: $text-on-aqua-secondary-color;
-        border: 5px inset $aqua-secondary-color;
-      }
-      &:focus {
-        color: $text-on-aqua-secondary-color;
-        border: 5px inset $aqua-secondary-color;
-      }
-      &[disabled] {
-        color: $text-on-aqua-secondary-color;
-        text-decoration: line-through;
-        border: 5px dotted $aqua-primary-color;
-        background-color: $aqua-secondary-color;
-        cursor: default;
-      }
-    }
   }
 }

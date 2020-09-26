@@ -1,6 +1,22 @@
 # Sasuga
 
+This project aims to become a federated all in on streaming platform software, backend and frontend.
+
 This project was generated using [Nx](https://nx.dev).
+
+/apps/api contains the json rest api and rtmp server.
+
+localhost:3333/swagger - swagger OAPI docs
+
+localhost:4200 - frontend
+
+rtmp - localhost:1935
+
+rtmp http - localhost:8888
+
+/apps/nobs contains the frontend.
+
+This project requires node >v12 and ffmpeg ~v4
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
 

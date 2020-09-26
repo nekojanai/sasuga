@@ -1,8 +1,6 @@
 import {
   Pipe,
-  PipeTransform,
-  OnDestroy,
-  ChangeDetectorRef
+  PipeTransform
 } from '@angular/core';
 import {
   RemoteData,
@@ -11,7 +9,6 @@ import {
   Success,
   Failure
 } from './remotedata';
-import { Observable, combineLatest, Subscription } from 'rxjs';
 
 const assertIsRemoteData = (rd: unknown) => {
   if (!( rd instanceof RemoteData )) {

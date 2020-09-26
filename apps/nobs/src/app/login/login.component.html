@@ -2,18 +2,15 @@
   <p>you are (invisible)</p>
   <label>
     usr
-    <input name="username" type="text" placeholder="usr..." formControlName="username"/>
+    <input sasuga-text-input name="username" type="text" placeholder="usr..." formControlName="username"/>
   </label>
   <label>
     key
-    <input name="password" type="password" placeholder="key..." formControlName="password"/>
+    <input sasuga-text-input name="password" type="password" placeholder="key..." formControlName="password"/>
   </label>
   <p>
-    <button  type="submit"  [disabled]="!loginForm.valid">< go visible ></button>
-  </p>
-  <p>
-    loginForm <br>
-    value: {{ loginForm.value | json }}<br>
-    status: {{ loginForm.status }}
+    <button sasuga-btn type="submit"  [disabled]="!loginForm.valid">go visible</button>
   </p>
 </form>
+<p *ngIf="loginState$ | async | isLoading">LOADING...</p>
+<p *ngIf="loginState$ | async | isFailure">login failed</p>

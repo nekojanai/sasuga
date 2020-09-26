@@ -12,7 +12,8 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { EffectsModule } from '@ngrx/effects';
 
-import { LoginModule } from './login/login.module'
+import { LoginModule } from './login/login.module';
+import { RemotedataModule } from '@sasuga/remotedata';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,16 @@ import { LoginModule } from './login/login.module'
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot( appReducers, { initialState: initialAppState }),
+    RemotedataModule,
+    StoreModule.forRoot( appReducers, { 
+      initialState: initialAppState,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+        strictStateSerializability: false,
+        strictActionSerializability: false,
+      }
+    }),
     EffectsModule.forRoot( appEffects ),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

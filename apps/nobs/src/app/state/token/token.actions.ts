@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { ILoginDto } from '@sasuga/api-interfaces';
 
 const loadLoginToken = createAction(
   '[Login] Load Login Token'
@@ -6,7 +7,7 @@ const loadLoginToken = createAction(
 
 const login = createAction(
   '[Login] Login',
-  props<{ username: string, password: string }>()
+  props<{ credentials: ILoginDto }>()
 );
 
 const loginSuccess = createAction(

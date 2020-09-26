@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { BtnModule } from './../commons/btn/btn.module';
+import { TextinputModule } from './../commons/textinput/textinput.module';
+import { LoginService } from './login.service';
+import { RemotedataModule } from '@sasuga/remotedata';
 
 
 
@@ -13,7 +16,12 @@ import { BtnModule } from './../commons/btn/btn.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    BtnModule
+    BtnModule,
+    TextinputModule,
+    RemotedataModule
+  ],
+  providers: [
+    LoginService
   ]
 })
 export class LoginModule { }

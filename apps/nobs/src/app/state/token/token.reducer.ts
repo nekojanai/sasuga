@@ -5,6 +5,7 @@ import { Loading, Success, Failure } from '@sasuga/remotedata';
 
 const _tokenReducer = createReducer(
   initialTokenState,
+  on( TokenActions.loadLoginToken, () => new Loading(undefined) ),
   on( TokenActions.login, () => new Loading(undefined) ),
   on( TokenActions.loginSuccess, (state, { token }) => new Success(token) ),
   on( TokenActions.loginFailure, (state, { error }) => new Failure(undefined, error) ),
