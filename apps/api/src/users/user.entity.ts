@@ -6,7 +6,7 @@ import { PasswordTransformer } from './password.transformer';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { StreamKeyTransformer } from './streamkey.transformer';
 
-@Entity()
+@Entity("users")
 export class User implements IUser {
 
   @PrimaryGeneratedColumn('uuid')

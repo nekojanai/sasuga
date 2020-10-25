@@ -13,7 +13,10 @@ import { LayoutModule } from './layout/layout.module';
 import { EffectsModule } from '@ngrx/effects';
 
 import { LoginModule } from './login/login.module';
+import { RegisterModule } from './register/register.module';
 import { RemotedataModule } from '@sasuga/remotedata';
+
+import { InstanceConfigService } from './state/instance-config/instance-config.service';
 
 @NgModule({
   declarations: [
@@ -39,9 +42,12 @@ import { RemotedataModule } from '@sasuga/remotedata';
       logOnly: true
     }),
     LayoutModule,
-    LoginModule
+    LoginModule,
+    RegisterModule
   ],
-  providers: [],
+  providers: [
+    InstanceConfigService
+  ],
   bootstrap: [
     AppComponent
   ]

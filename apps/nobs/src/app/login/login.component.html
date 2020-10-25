@@ -1,15 +1,16 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <p>you are (invisible)</p>
   <label>
-    usr
-    <input sasuga-text-input name="username" type="text" placeholder="usr..." formControlName="username"/>
+    usr<br>
+    <input sasuga-text-input name="username" type="text" formControlName="username"/>
   </label>
   <label>
-    key
-    <input sasuga-text-input name="password" type="password" placeholder="key..." formControlName="password"/>
+    key<br>
+    <input sasuga-text-input name="password" type="password" formControlName="password"/>
   </label>
   <p>
-    <button sasuga-btn type="submit"  [disabled]="!loginForm.valid">go visible</button>
+    <button sasuga-btn type="submit"  [disabled]="!loginForm.valid">go visible</button><br>
+    <a [routerLink]="['/register']">are you?</a>
   </p>
 </form>
 <p *ngIf="loginState$ | async | isLoading">LOADING...</p>

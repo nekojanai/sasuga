@@ -1,0 +1,1 @@
+export const API_BASE_URL = 'https://vs.neko.bar/proxy/3333/api/v1/';

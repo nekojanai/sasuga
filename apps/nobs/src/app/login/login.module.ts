@@ -6,6 +6,7 @@ import { BtnModule } from './../commons/btn/btn.module';
 import { TextinputModule } from './../commons/textinput/textinput.module';
 import { LoginService } from './login.service';
 import { RemotedataModule } from '@sasuga/remotedata';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -18,7 +19,8 @@ import { RemotedataModule } from '@sasuga/remotedata';
     ReactiveFormsModule,
     BtnModule,
     TextinputModule,
-    RemotedataModule
+    RemotedataModule,
+    RouterModule
   ],
   providers: [
     LoginService

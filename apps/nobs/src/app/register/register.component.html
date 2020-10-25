@@ -1,0 +1,14 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <p>you are not</p>
+    <label>
+      usr<br>
+      <input sasuga-text-input name="name" type="text" formControlName="name"/>
+    </label><br>
+    <label>
+      key<br>
+      <input sasuga-text-input name="password" type="password" formControlName="password"/>
+    </label>
+  <p>
+    <button sasuga-btn type="submit"  [disabled]="!registerForm.valid">become</button>
+  </p>
+</form>
