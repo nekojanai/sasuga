@@ -11,4 +11,12 @@
   <p>
     <button sasuga-btn type="submit"  [disabled]="!registerForm.valid">become</button>
   </p>
+  <p *ngIf="result | isFailure">
+    <ng-container *ngIf="result?.error === '403'; then 403; else 500"></ng-container>
+    <ng-template #403></ng-template>
+    <ng-template #500></ng-template>
+  </p>
+  <p *ngIf="result | isSuccess">
+    Registration successfull.
+  </p>
 </form>

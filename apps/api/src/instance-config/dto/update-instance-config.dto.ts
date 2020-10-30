@@ -1,8 +1,12 @@
 import { IUpdateInstanceConfigDto } from '@sasuga/api-interfaces';
-import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class UpdateInstanceConfigDto implements IUpdateInstanceConfigDto {
   @IsBoolean()
   @IsOptional()
   registrationsEnabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  instanceName?: string;
 }

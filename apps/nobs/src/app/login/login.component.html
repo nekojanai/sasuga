@@ -10,7 +10,7 @@
   </label>
   <p>
     <button sasuga-btn type="submit"  [disabled]="!loginForm.valid">go visible</button><br>
-    <a [routerLink]="['/register']">are you?</a>
+    <a *ngIf="(registrationsEnabledState$ | async)" [routerLink]="['/register']">are you?</a>
   </p>
 </form>
 <p *ngIf="loginState$ | async | isLoading">LOADING...</p>

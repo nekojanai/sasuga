@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from '../../config';
-import { IInstanceConfig } from '@sasuga/api-interface';
+import { IInstanceConfig } from '@sasuga/api-interfaces';
 
 
 @Injectable()

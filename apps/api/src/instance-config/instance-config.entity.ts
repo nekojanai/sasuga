@@ -20,4 +20,7 @@ export class InstanceConfig implements IInstanceConfig {
   @Column({ default: false })
   registrationsEnabled: boolean;
 
+  @Column({ default: 'sasuga' })
+  instanceName: string;
+
 }

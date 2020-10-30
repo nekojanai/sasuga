@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InstanceConfigActions } from './instance-config.actions';
 import { InstanceConfigService } from './instance-config.service';
 import { exhaustMap, catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs';
  
 @Injectable()
 export class InstanceConfigEffects {

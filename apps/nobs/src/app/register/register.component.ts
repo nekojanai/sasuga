@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegisterService } from './register.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Initial, Failure, Success } from '@sasuga/remotedata';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { of } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
 
-  result = undefined;
+  result = new Initial();
 
   registerForm = new FormGroup({
     name: new FormControl('',[Validators.required]),
@@ -27,10 +28,21 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.registerService.register(this.registerForm.value).pipe(
-      catchError(e => { console.log(e.message); return of(e); })
-    ).subscribe((data) => {
-      this.result = data;
-    });
+      catchError(error => {
+        if(error.error instanceof ErrorEvent) {
+          console.log('client side error '+error.status);
+        } else {
+          console.log('server side error '+error.status);
+          this.result = new Failure(undefined, error.status);
+        }
+        return of(undefined);
+      }),
+      tap(data => {
+        if (data) {
+          this.result = new Success(data);
+        }
+      })
+    ).subscribe();
   }
 
 }

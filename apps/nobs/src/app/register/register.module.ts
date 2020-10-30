@@ -5,6 +5,7 @@ import { RegisterService } from './register.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BtnModule } from '../commons/btn/btn.module';
 import { TextinputModule } from '../commons/textinput/textinput.module';
+import { RemotedataModule } from '@sasuga/remotedata';
 
 
 
@@ -16,7 +17,8 @@ import { TextinputModule } from '../commons/textinput/textinput.module';
     CommonModule,
     ReactiveFormsModule,
     BtnModule,
-    TextinputModule
+    TextinputModule,
+    RemotedataModule
   ],
   providers: [
     RegisterService

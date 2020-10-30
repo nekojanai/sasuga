@@ -4,8 +4,8 @@ import { InstanceConfigActions } from './instance-config.actions';
 import { Loading, Success, Failure } from '@sasuga/remotedata';
 
 const _instanceConfigReducer = createReducer(
-  iniitalInstanceConfigState,
-  on( InstanceConfigActions.loadInstanceConfig, () => new Loading() ),
+  initialInstanceConfigState,
+  on( InstanceConfigActions.loadInstanceConfig, (state) => new Loading(state.data)),
   on( InstanceConfigActions.loadInstanceConfigSuccess, (state, { instanceConfig }) => new Success(instanceConfig)),
   on( InstanceConfigActions.loadInstanceConfigFailure, (state, { error }) => new Failure(undefined, error)),
 );
