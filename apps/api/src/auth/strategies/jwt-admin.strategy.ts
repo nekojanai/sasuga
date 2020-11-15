@@ -20,12 +20,8 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy,'jwt-admin') {
 
   async validate(payload: any) {
     const user = await this.usersService.findOne(payload.sub);
-    if (user) {
-      if (user.isAdmin) {
-        return { id: payload.sub };
-      } else {
-        throw new UnauthorizedException('nah man');
-      }
+    if (user && user.isActive && user.isAdmin) {
+      return { id: payload.sub };
     } else {
       throw new UnauthorizedException('nah man');
     }

@@ -1,4 +1,4 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, Param, Post, UseGuards } from '@nestjs/common';
 import { CrudController, Crud } from '@nestjsx/crud';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt-admin'))
-@ApiTags('users')
+@ApiTags('admin/users')
 @Crud({
   model: {
     type: User,
@@ -28,11 +28,16 @@ import { AuthGuard } from '@nestjs/passport';
     replace: ReplaceUserDto
   }
 })
-@Controller('api/v1/users')
+@Controller('api/v1/admin/users')
 export class UsersController implements CrudController<User> {
 
   constructor(
     public service: UsersService
   ) {}
+
+  @Post(':id/ban')
+  banUser(@Param('id') id: string) {
+    return this.service.setInactiveAndEndStream(id);
+  }
 
 }

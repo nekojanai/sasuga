@@ -12,13 +12,13 @@ import { Injectable } from '@angular/core';
 export class RegistrationsDisabledGuard implements CanActivate {
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {}
 
   canActivate() {
     return this.store.select(s => s.instanceConfigState).pipe(
       map(v => v instanceof Success ? (v.data as IInstanceConfig).registrationsEnabled : false)
-    );
+    )
   }
 
 }

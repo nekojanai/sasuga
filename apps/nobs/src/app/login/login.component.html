@@ -2,7 +2,7 @@
   <p>you are (invisible)</p>
   <label>
     usr<br>
-    <input sasuga-text-input name="username" type="text" formControlName="username"/>
+    <input sasuga-text-input name="name" type="text" formControlName="name"/>
   </label>
   <label>
     key<br>
@@ -15,3 +15,4 @@
 </form>
 <p *ngIf="loginState$ | async | isLoading">LOADING...</p>
 <p *ngIf="loginState$ | async | isFailure">login failed</p>
+<p *ngIf="loginState$ | async | isSuccess">login successful</p>

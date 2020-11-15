@@ -4,10 +4,41 @@ import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { LoginService } from '../../login/login.service';
 import { TokenActions } from './token.actions';
-import { setToken, clearToken } from './token';
+import { setToken, clearToken, getToken } from './token';
+import { Router } from '@angular/router';
+import { ProfileActions } from '../profile';
 
 @Injectable()
 export class TokenEffects {
+
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(TokenActions.logout),
+    tap(_ => {
+      clearToken();
+      this.router.navigate(['/']);
+    }),
+    map(_ => ProfileActions.clearProfile())
+  ));
+
+  loadLoginToken$ = createEffect(() => this.actions$.pipe(
+    ofType(TokenActions.loadLoginToken),
+    map(_ => {
+      const token = getToken();
+      if (token) {
+        return TokenActions.loadLoginTokenSuccess({ token });
+      } else {
+        return TokenActions.noLoginTokenToLoad();
+      }
+    })
+  ));
+
+  loadLoginTokenSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(TokenActions.loadLoginTokenSuccess),
+    tap(action => {
+      setToken(action.token);
+    }),
+    map(action => ProfileActions.loadProfile())
+  ));
 
   login$ = createEffect(() => this.actions$.pipe(
     ofType(TokenActions.login),
@@ -21,8 +52,12 @@ export class TokenEffects {
 
   loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(TokenActions.loginSuccess),
-    tap(action => setToken(action.token))
-  ), { dispatch: false });
+    tap(action => {
+      setToken(action.token);
+      this.router.navigate(['/']);
+    }),
+    map(action => ProfileActions.loadProfile())
+  ));
 
   loginFailure$ = createEffect(() => this.actions$.pipe(
     ofType(TokenActions.loginFailure),
@@ -31,7 +66,8 @@ export class TokenEffects {
 
   constructor(
     private actions$: Actions,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
 }

@@ -1,0 +1,17 @@
+<h3>Instance Config</h3>
+<form [formGroup]="instanceConfigForm" (ngSubmit)="onInstanceConfigFormSubmit()">
+  <label>
+    Registrations enabled
+    <input sasuga-text-input name="registrationsEnabled" type="checkbox" formControlName="registrationsEnabled"/><br>
+  </label>
+  <label>
+    Instance name
+    <input sasuga-text-input name="instanceName" type="text" formControlName="instanceName"/>
+  </label>
+  <p>
+    <button sasuga-btn type="submit"  [disabled]="!instanceConfigForm.valid">save</button><br>
+  </p>
+</form>
+<p *ngIf="instanceConfigFormResult | isLoading">Loading</p>
+<p *ngIf="instanceConfigFormResult | isSuccess">Success</p>
+<p *ngIf="instanceConfigFormResult | isFailure">Failure</p>

@@ -6,7 +6,7 @@ import { InstanceConfigRepository } from './instance-config.repository';
 import { InstanceConfig } from './instance-config.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InstanceConfig, InstanceConfigRepository])],
+  imports: [TypeOrmModule.forFeature([InstanceConfigRepository])],
   exports: [InstanceConfigService],
   providers: [InstanceConfigService],
   controllers: [InstanceConfigController]

@@ -6,4 +6,15 @@
 }
 .brand {
   letter-spacing: 1em;
+  cursor: pointer;
+}
+.hidden {
+  display: none !important;
+}
+.menu {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
 }

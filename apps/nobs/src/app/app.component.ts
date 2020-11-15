@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './state/app.state';
 import { InstanceConfigActions } from './state/instance-config';
+import { TokenActions } from './state/token';
 
 @Component({
   selector: 'sasuga-root',
@@ -15,5 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(InstanceConfigActions.loadInstanceConfig());
+    this.store.dispatch(TokenActions.loadLoginToken());
   }
 }

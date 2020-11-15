@@ -1,1 +1,16 @@
-<p>settings works!</p>
+<h3>Reset Password</h3>
+<form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit()">
+  <input sasuga-text-input name="password" type="password" formControlName="password">
+  <button sasuga-btn type="submit"  [disabled]="!passwordForm.valid">change password</button>
+</form>
+<p *ngIf="passwordFormResult | isSuccess">Success</p>
+<p *ngIf="passwordFormResult | isFailure">Failure</p>
+<hr>
+<h3>StreamKey</h3>
+<input sasuga-text-input readonly [value]="streamkey | async" [type]="streamkeyIsHidden ? 'password' : 'text'">
+<button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
+<button (click)="resetStreamkey()" sasuga-btn>reset streamkey</button>
+<p *ngIf="resetStreamkeyResult | isSuccess">Success</p>
+<p *ngIf="resetStreamkeyResult | isFailure">Failure</p>
+<hr>
+<sasuga-admin *ngIf="isAdmin | async"></sasuga-admin>

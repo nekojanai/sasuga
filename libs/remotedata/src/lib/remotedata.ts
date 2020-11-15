@@ -11,11 +11,11 @@ export class RemoteData<T, E = string> {
   error?: E;
 }
 
-export class Initial extends RemoteData<any> {
+export class Initial<T, E = string> extends RemoteData<T, E> {
   status = RemoteDataStatus.Initial;
 }
 
-export class Loading<T> extends RemoteData<T> {
+export class Loading<T, E = string> extends RemoteData<T , E> {
   status = RemoteDataStatus.Loading;
 
   constructor(public data: T) {
@@ -23,7 +23,7 @@ export class Loading<T> extends RemoteData<T> {
   }
 }
 
-export class Success<T> extends RemoteData<T> {
+export class Success<T, E = string> extends RemoteData<T, E> {
   status = RemoteDataStatus.Success;
 
   constructor(public data: T) {

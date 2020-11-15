@@ -12,7 +12,7 @@ export class InstanceConfigService {
     private http: HttpClient
   ) {}
 
-  load() {
+  get() {
     return this.http.get<IInstanceConfig>(this.instanceConfigBaseRoute);
   }
 }

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Success, Failure, Loading } from '@sasuga/remotedata';
 import { IInstanceConfig } from '@sasuga/api-interfaces';
 import { Observable } from 'rxjs';
+import { TokenActions } from '../../state/token';
 
 @Component({
   selector: 'sasuga-header',
@@ -13,22 +14,33 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  instanceName$: Observable<string>;
+  menuHidden = true;
+
+  instanceName$ = this.store.select(s => s.instanceConfigState?.data?.instanceName);
+
+  isLoggedIn$ = this.store.select(s => s.tokenState).pipe(
+    map(v => v instanceof Success)
+  );
+
+  username$ = this.store.select(s => s.profileState).pipe(
+    map(v => v.data?.name)
+  );
 
   constructor(
     private store: Store<AppState>
   ) { }
 
+  toggleMenu() {
+    this.menuHidden = !this.menuHidden;
+    if(!this.menuHidden) {setTimeout(() => window.addEventListener('click', () => this.toggleMenu(), {once:true}),1)};
+  }
+
   ngOnInit(): void {
-    this.instanceName$ = this.store.select(s => s.instanceConfigState).pipe(
-      map(v => {
-        if (v instanceof Success || v instanceof Loading) {
-          return (v.data as IInstanceConfig)?.instanceName;
-        } else if (v instanceof Failure) {
-          return '._.';
-        }
-      }),
-    );
+    
+  }
+
+  logout() {
+    this.store.dispatch(TokenActions.logout());
   }
 
 }

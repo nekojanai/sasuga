@@ -2,4 +2,6 @@
 
 :host {
   color: $aqua-primary-color;
+  height: calc(100% - 55px);
+  overflow-y: auto;
 }

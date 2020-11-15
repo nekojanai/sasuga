@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Observable, of, from } from 'rxjs';
-import { map, concatMap } from 'rxjs/operators';
+import { map, concatMap, exhaustMap, catchError } from 'rxjs/operators';
 import { RegisterDto } from './dto/register.dto';
 import { InstanceConfigService } from '../instance-config/instance-config.service';
 import { User } from '../users/user.entity';
@@ -17,6 +17,15 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
+  validateTokenGetUser(token: string) {
+    return from(this.jwtService.verifyAsync(token)).pipe(
+      catchError(err => of(undefined)),
+      exhaustMap(verifyResult => {
+        return verifyResult ? this.usersService.findOne(verifyResult.sub) : of(undefined);
+      })
+    )
+  }
+
   validateCredentialsAndIssueToken(name: string, password: string): Observable<any> {
     return this.usersService.validate(name, password).pipe(
       map(user => user ? { token: this.jwtService.sign({ sub: user.id }) } : undefined )
@@ -27,9 +36,9 @@ export class AuthService {
     return this.istanceConfigService.getOrCreate().pipe(
       concatMap(config => {
         if (config && config.registrationsEnabled) {
-          return this.usersService.findOne({});
+          return this.usersService.findOne({name: data.name});
         } else {
-          throw new HttpException('Registrations are disabled atm.', HttpStatus.FORBIDDEN);
+          throw new HttpException('Registrations are disabled.', HttpStatus.FORBIDDEN);
         }
       }),
       concatMap(user => {

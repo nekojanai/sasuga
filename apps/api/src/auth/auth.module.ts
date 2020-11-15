@@ -28,6 +28,9 @@ import { JwtAdminStrategy } from './strategies/jwt-admin.strategy';
       inject: [ConfigService]
     })
   ],
+  exports: [
+    AuthService
+  ],
   providers: [
     LocalStrategy,
     JwtStrategy,

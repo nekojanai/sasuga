@@ -6,9 +6,9 @@ export class StreamKeyTransformer implements ValueTransformer {
   }
   to(value: string) {
     if (value) {
-      return Math.random().toString(36).slice(2);
+      return value;
     } else {
-      return '';
+      return Math.random().toString(36).slice(2);
     }
   }
   

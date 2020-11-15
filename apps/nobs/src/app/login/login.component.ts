@@ -15,7 +15,7 @@ import { IInstanceConfig } from '@sasuga/api-interfaces';
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    username: new FormControl('',[Validators.required]),
+    name: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required])
   });
 
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   registrationsEnabledState$ = undefined;
   
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit(): void {

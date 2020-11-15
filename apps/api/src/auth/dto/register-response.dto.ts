@@ -17,4 +17,7 @@ export class RegisterResponseDto implements IRegisterResponseDto {
   @ApiHideProperty()
   @Exclude()
   password: string;
+  streamkey: string;
+  isStreaming: boolean;
+  isActive: boolean;
 }

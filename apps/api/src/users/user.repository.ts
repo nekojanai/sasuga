@@ -1,16 +1,14 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { User } from './user.entity';
 import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import * as Crypto from 'crypto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
   findOneAndValidateStreamKey(streamkey: string) {
-    return from(this.findOne({streamkey})).pipe(
-      map(user => user ? user : undefined)
-    );
+    return from(this.findOne({streamkey}));
   }
 
   findOneAndValidateCredentials(name: string, password: string) {

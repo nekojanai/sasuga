@@ -1,0 +1,50 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.offline {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.view {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.video {
+  flex: 1;
+  max-width: 80vw;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chat {
+  flex: 1;
+  max-width: 20vw;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 970px) {
+  .view {
+    flex: 1;
+    flex-direction: column;
+  }
+  .video {
+    flex: 0;
+    max-width: 100vw;
+  }
+  .chat {
+    max-width: 100vw;
+  }
+}

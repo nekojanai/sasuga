@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { httpInterceptorProviders } from './interceptors';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './routing/app-routing.module';
@@ -15,8 +16,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
 import { RemotedataModule } from '@sasuga/remotedata';
-
+import { SnackbarModule } from './snackbar/snackbar.module';
 import { InstanceConfigService } from './state/instance-config/instance-config.service';
+import { ProfileService } from './state/profile/profile.service';
+import { SettingsModule } from './settings/settings.module';
+import { HomeModule } from './home/home.module';
+import { UserModule } from './user/user.module';
+import { FilesModule } from './files/files.module';
+
+import { GeneralSocket } from './sockets/general.socket';
 
 @NgModule({
   declarations: [
@@ -42,11 +50,19 @@ import { InstanceConfigService } from './state/instance-config/instance-config.s
       logOnly: true
     }),
     LayoutModule,
+    HomeModule,
     LoginModule,
-    RegisterModule
+    RegisterModule,
+    SnackbarModule,
+    SettingsModule,
+    UserModule,
+    FilesModule
   ],
   providers: [
-    InstanceConfigService
+    httpInterceptorProviders,
+    InstanceConfigService,
+    ProfileService,
+    GeneralSocket
   ],
   bootstrap: [
     AppComponent

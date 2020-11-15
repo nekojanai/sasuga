@@ -1,1 +1,17 @@
-<p>Welcome to project sasuga.</p>
+<ng-container *ngIf="streamsResult | isLoading">
+  Loading streams...
+</ng-container>
+<ng-container *ngIf="streamsResult | isSuccess">
+  <ng-container *ngIf="streamsResult.data.meta.totalItems > 0; else noitems">
+    <ng-container *ngFor="let user of streamsResult.data.items">
+      {{ user.name }} is streaming
+      <a [routerLink]="'/user/'+user.name">watch {{user.name}}</a><br>
+    </ng-container>
+  </ng-container>
+  <ng-template #noitems>
+    <p>noone is around to help</p>
+  </ng-template>
+</ng-container>
+<ng-container *ngIf="streamsResult | isFailure">
+  Loading streams failed.
+</ng-container>

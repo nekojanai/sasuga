@@ -1,0 +1,10 @@
+<h3>{{user?.name}}'s channel</h3>
+<div class="view">
+  <div class="video" id="videojs-container">
+    <video id="videojs" class="video-js hidden" controls muted playsinline preload="none"></video>
+    <span *ngIf="!isStreaming" class="offline">offline</span>
+  </div>
+  <div class="chat">
+    <sasuga-chat *ngIf="user" [channelname]="user?.name"></sasuga-chat>
+  </div>
+</div>

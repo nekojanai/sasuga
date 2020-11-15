@@ -1,8 +1,17 @@
-<div class="brand">
+<div class="brand" routerLink="/home">
   {{ (instanceName$ | async) }}
 </div>
-<nav>
-  <a sasuga-btn routerLink="/home" routerLinkActive="active">home</a>
-  <a sasuga-btn routerLink="/explore" routerLinkActive="active">explore</a>
+<nav *ngIf="!(isLoggedIn$ | async); else whenIsLoggedIn">
   <a sasuga-btn routerLink="/login" routerLinkActive="active">login</a>
 </nav>
+<ng-template #whenIsLoggedIn>
+  <nav>
+    <a class="profile" (click)="toggleMenu()" sasuga-btn>{{username$ | async}}</a>
+  </nav>
+  <div class="menu" [class.hidden]="menuHidden">
+    <a sasuga-btn [routerLink]="'/user/'+(username$ | async)" routerLinkActive="active">my channel</a>
+    <a sasuga-btn routerLink="/files" routerLinkActive="active">files</a>
+    <a sasuga-btn routerLink="/settings" routerLinkActive="active">settings</a>
+    <a sasuga-btn (click)="logout()">logout</a>
+  </div>
+</ng-template>

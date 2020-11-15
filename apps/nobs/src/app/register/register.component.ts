@@ -3,7 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegisterService } from './register.service';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Initial, Failure, Success } from '@sasuga/remotedata';
+import { Initial, Failure, Success, RemoteData } from '@sasuga/remotedata';
+import { Store } from '@ngrx/store';
+import { AppState } from '../state/app.state';
+import { TokenActions } from '../state/token';
+import { IRegisterResponseDto } from '@sasuga/api-interfaces';
 
 
 @Component({
@@ -13,7 +17,7 @@ import { Initial, Failure, Success } from '@sasuga/remotedata';
 })
 export class RegisterComponent implements OnInit {
 
-  result = new Initial();
+  result: RemoteData<any, any> = new Initial<any, any>();
 
   registerForm = new FormGroup({
     name: new FormControl('',[Validators.required]),
@@ -21,7 +25,8 @@ export class RegisterComponent implements OnInit {
   });
 
   constructor(
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {}
@@ -29,17 +34,13 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.registerService.register(this.registerForm.value).pipe(
       catchError(error => {
-        if(error.error instanceof ErrorEvent) {
-          console.log('client side error '+error.status);
-        } else {
-          console.log('server side error '+error.status);
-          this.result = new Failure(undefined, error.status);
-        }
+        this.result = new Failure(undefined, error.error);
         return of(undefined);
       }),
       tap(data => {
         if (data) {
           this.result = new Success(data);
+          this.store.dispatch(TokenActions.loginSuccess({ token: data.token }))
         }
       })
     ).subscribe();
