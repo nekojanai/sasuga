@@ -22,7 +22,7 @@ import { join } from 'path';
     }),
     DatabaseModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', 'nobs'),
       exclude: ['/api*']
     }),
     UsersModule,
