@@ -1,3 +1,19 @@
+@import 'variables';
+
+.file {
+  border: 1px solid $aqua-primary-color;
+}
+
 .img {
   max-width: 100%;
+}
+
+.video {
+  max-width: 100%;
+}
+
+.link {
+  text-decoration: underline;
+  color: rgb(0, 0, 238);
+  cursor: pointer;
 }

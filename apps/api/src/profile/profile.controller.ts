@@ -67,13 +67,13 @@ export class ProfileController {
     return paginate(this.uploadsService.uploadRepo, { page, limit }, { order: { createdAt: "DESC"}});
   }
 
-  @Delete('uploads')
-  deleteUpload(@Request() req, @Body() data: { names: string[], ids: string[] }) {
+  @Delete('uploads/:filename')
+  deleteUpload(@Request() req, @Param('filename') filename: string) {
     return this.usersService.findOne(req.user.id)
     .then(user => {
       if (user) {
-        return this.uploadsService.uploadRepo.delete(data?.ids)
-        .then(_ => this.uploadsService.remove(data?.names, user));
+        return this.uploadsService.uploadRepo.delete({ filename })
+        .then(_ => this.uploadsService.remove([filename], user));
       }
     });
   }

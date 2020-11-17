@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_BASE_URL } from '../config';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FilesService {
 
-  private uploadsBaseUrl = API_BASE_URL+'profile/uploads';
+  private uploadsBaseUrl = environment.API_BASE_URL+'profile/uploads/';
 
   constructor(
     private http: HttpClient
@@ -24,8 +24,8 @@ export class FilesService {
     return this.http.get(this.uploadsBaseUrl, {params});
   }
 
-  deleteUploads() {
-    
+  deleteUpload(filename: string) {
+    return this.http.delete(this.uploadsBaseUrl+filename);
   }
 
 }

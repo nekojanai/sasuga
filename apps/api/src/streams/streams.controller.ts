@@ -17,7 +17,7 @@ export class StreamsController {
 
   constructor(
     private streamsService: StreamsService,
-    private generalGatewayService: GeneralGatewayService
+    private generalGatewayService: GeneralGatewayService,
   ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)

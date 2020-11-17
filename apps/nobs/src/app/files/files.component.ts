@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { finalize, map, tap } from 'rxjs/operators';
-import { S3_BASE_URL } from '../config';
+import { environment } from '../../environments/environment';
 import { AppState } from '../state/app.state';
 import { FilesService } from './files.service';
 
@@ -28,11 +28,15 @@ export class FilesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(s => s.profileState.data?.name).subscribe(name => {
-      this.uploadBasePath = `${S3_BASE_URL}/${name}/`;
+      this.uploadBasePath = `${environment.S3_BASE_URL}/${name}/`;
     });
     this.route.queryParams.subscribe(params => {
       this.getUploads(params.page, params.limit)
     });
+  }
+
+  deleteUpload(filename: string) {
+    this.filesService.deleteUpload(filename).subscribe(_ => this.getUploads());
   }
 
   getUploads(page: number = 1, limit: number = 10) {

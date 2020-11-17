@@ -1,20 +1,17 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from '@nestjs/config';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 import { UsersService } from './users.service';
 
 @Injectable()
 export class ActivityPubService {
 
-  domain: string;
+  domain = environment.DOMAIN;
 
   constructor(
-    private usersService: UsersService,
-    private configService: ConfigService
-  ) {
-    this.domain = this.configService.get('DOMAIN');
-  }
+    private usersService: UsersService
+  ) {}
 
   getActor(username: string) {
     return from(this.usersService.findOne({name: username})).pipe(

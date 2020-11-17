@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { API_BASE_URL } from '../config';
+import { HttpClient} from '@angular/common/http';
 import { IUpdateInstanceConfigDto, IUpdatePasswordDto } from '@sasuga/api-interfaces';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AdminService {
 
-  private instanceConfigBaseRoute = API_BASE_URL+'config';
+  private instanceConfigBaseRoute = environment.API_BASE_URL+'config';
 
   constructor(
     private http: HttpClient,

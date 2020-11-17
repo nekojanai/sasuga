@@ -1,10 +1,8 @@
 import { UsersModule } from './users/users.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { AuthModule } from './auth/auth.module';
 import { InstanceConfigModule } from './instance-config/instance-config.module';
-import { CustomLoggerModule } from './custom-logger/custom-logger.module';
 import { ProfileModule } from './profile/profile.module';
 import { StreamsModule } from './streams/streams.module';
 import { GatewayModule } from './gateways/gateway.module';
@@ -16,10 +14,7 @@ import { join } from 'path';
 @Module({
   imports: [
     InstanceConfigModule,
-    UsersModule, 
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    UsersModule,
     DatabaseModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'nobs'),
@@ -27,7 +22,6 @@ import { join } from 'path';
     }),
     UsersModule,
     AuthModule,
-    CustomLoggerModule,
     ProfileModule,
     StreamsModule,
     GatewayModule,
@@ -35,8 +29,6 @@ import { join } from 'path';
     UploadsModule
   ],
   controllers: [],
-  providers: [
-    ConfigService
-  ]
+  providers: []
 })
 export class AppModule {}

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_BASE_URL } from '../../config';
 import { IInstanceConfig } from '@sasuga/api-interfaces';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
 export class InstanceConfigService {
-  private instanceConfigBaseRoute = API_BASE_URL+'config';
+  private instanceConfigBaseRoute = environment.API_BASE_URL+'config';
 
   constructor(
     private http: HttpClient

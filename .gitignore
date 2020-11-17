@@ -39,5 +39,5 @@ testem.log
 ._.DS_Store
 Thumbs.db
 
-# streaming
-/server*
+#config
+environment.prod.ts

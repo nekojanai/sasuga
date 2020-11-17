@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class WebfingerService {
 
-  domain: string;
+  domain = environment.DOMAIN;
 
-  constructor(
-    private configService: ConfigService
-  ) {
-    this.domain = this.configService.get('DOMAIN');
-  }
+  constructor() {}
 
   createWebfingerForUsername(username: string) {
     return {

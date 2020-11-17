@@ -1,23 +1,23 @@
-<label>
-  files<br>
-  <input sasuga-text-input name="name" type="file" multiple (change)="filesChange($event.target.files)"/>
-</label><br>
+<br><input sasuga-text-input name="name" type="file" multiple (change)="filesChange($event.target.files)"/>
 <span>{{ uploadStatus }}</span>
 <hr>
-{{ uploads?.meta | json}}<br>
+files: {{ uploads?.meta?.totalItems | json}}<br>
 <div class="meta">
   <a *ngIf="uploads?.meta?.currentPage > 1" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage-1 }"><-prev</a> |
   <a *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage+1 }">next-></a>
 </div>
+<hr>
 <div class="files">
-  <div class="file-container" *ngFor="let upload of uploads?.items">
+  <div class="file" *ngFor="let upload of uploads?.items">
     <img *ngIf="upload.mimetype.startsWith('image')" class="img" [src]="uploadBasePath+upload.filename">
-    <video controls *ngIf="upload.mimetype.startsWith('video')" [src]="uploadBasePath+upload.filename"></video>
+    <video class="video" controls *ngIf="upload.mimetype.startsWith('video')" [src]="uploadBasePath+upload.filename"></video><br>
     {{ upload.mimetype }}
     <a [href]="uploadBasePath+upload.filename" download>download</a> |
+    <a class="link" (click)="deleteUpload(upload.filename)">delete</a> |
     <span>uploaded: {{ upload.createdAt | date:'short'}}</span>
   </div>
 </div>
+<hr>
 <div class="meta">
   <a *ngIf="uploads?.meta?.currentPage > 1" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage-1 }"><-prev</a> |
   <a *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage+1 }">next-></a>

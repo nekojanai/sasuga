@@ -4,9 +4,9 @@ import { IUser } from '@sasuga/api-interfaces';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import videojs from 'video.js';
+import { environment } from '../../environments/environment';
 import { GeneralSocket } from '../sockets/general.socket';
 import { UserService } from './user.service';
-import { LIVE_URL } from '../config';
 
 @Component({
   selector: 'sasuga-user',
@@ -63,7 +63,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   initPlayer(username: string) {
     const src = {
-      src: LIVE_URL+'/live/'+username+'/index.m3u8',
+      src: environment.LIVE_URL+'/live/'+username+'/index.m3u8',
       type: 'application/x-mpegurl'
     };
     const options = {
@@ -73,7 +73,7 @@ export class UserComponent implements OnInit, OnDestroy {
       controls: true,
       sources: [
         {
-          src: LIVE_URL+'/live/'+username+'/index.m3u8',
+          src: environment.LIVE_URL+'/live/'+username+'/index.m3u8',
           type: 'application/x-mpegurl'
         }
       ],
