@@ -20,16 +20,20 @@ export class SettingsComponent implements OnInit {
 
   streamkeyIsHidden = true;
 
+  userForm = new FormGroup({
+    preferedName: new FormControl('', [Validators.required]),
+    summary: new FormControl('', [Validators.required])
+  });
+
   passwordForm = new FormGroup({
     password: new FormControl('', [Validators.required])
   });
 
+  userFormResult = new Initial<string, any>();
   passwordFormResult = new Initial<string, any>();
   resetStreamkeyResult = new Initial<string, any>();
 
-  streamkey = this.store.select(s => s.profileState instanceof Success ? (s.profileState.data as IUser).streamkey : '');
-
-  userCreatedAt = this.store.select(s => s.profileState instanceof Success ? (s.profileState.data as IUser).name : '');
+  profile = this.store.select(s => s.profileState.data);
 
   constructor(
     private settingsService: SettingsService,
@@ -40,8 +44,32 @@ export class SettingsComponent implements OnInit {
     this.isAdmin = this.store.select(s => s.profileState?.data?.isAdmin);
   }
 
+  selectIconId(event) {
+    console.log(event);
+  }
+
+  selectImageId(event) {
+    console.log(event)
+  }
+
   showStreamkey() {
     this.streamkeyIsHidden = !this.streamkeyIsHidden;
+  }
+
+  onUserFormSubmit() {
+    this.userFormResult = new Loading(undefined);
+    this.settingsService.updateUser(this.userForm.value).pipe(
+      catchError(error => {
+        this.userFormResult = new Failure(undefined, error.error);
+        return of(undefined);
+      }),
+      tap(data => {
+        if (data) {
+          this.userFormResult = new Success(data);
+          this.store.dispatch(ProfileActions.loadProfileSuccess({profile:data}));
+        }
+      })
+    ).subscribe();
   }
 
   onPasswordFormSubmit() {

@@ -7,6 +7,7 @@ import { BtnModule } from '../commons/btn/btn.module';
 import { TextinputModule } from '../commons/textinput/textinput.module';
 import { RemotedataModule } from '@sasuga/remotedata';
 import { AdminModule } from '../admin/admin.module';
+import { FilesModule } from '../files/files.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AdminModule } from '../admin/admin.module';
     BtnModule,
     TextinputModule,
     RemotedataModule,
-    AdminModule
+    AdminModule,
+    FilesModule
   ],
   providers: [
     SettingsService

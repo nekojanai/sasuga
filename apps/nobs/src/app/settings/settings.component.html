@@ -1,3 +1,20 @@
+<h3>Channel</h3>
+<form [formGroup]="userForm" (ngSubmit)="onUserFormSubmit()">
+  <label>
+    channel name<br>
+    <input sasuga-text-input [value]="(profile | async)?.preferedName" name="preferedName" type="text" formControlName="preferedName"><br>
+  </label>
+  <label>
+    channel summary<br>
+    <textarea sasuga-text-input [value]="(profile | async)?.summary" name="summary" formControlName="summary"></textarea><br>
+  </label>
+  select channel icon
+  <sasuga-files class="fileSelector" [fileSelecting]="true" (selectedFileIdChange)="selectIconId($event)"></sasuga-files>
+  select channel image
+  <sasuga-files class="fileSelector" [fileSelecting]="true" (selectedFileIdChange)="selectImageId($event)"></sasuga-files>
+  <button sasuga-btn type="submit"  [disabled]="!userForm.valid">save</button>
+</form>
+<hr>
 <h3>Reset Password</h3>
 <form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit()">
   <input sasuga-text-input name="password" type="password" formControlName="password">
@@ -7,7 +24,7 @@
 <p *ngIf="passwordFormResult | isFailure">Failure</p>
 <hr>
 <h3>StreamKey</h3>
-<input sasuga-text-input readonly [value]="streamkey | async" [type]="streamkeyIsHidden ? 'password' : 'text'">
+<input sasuga-text-input readonly [value]="(profile | async)?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
 <button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
 <button (click)="resetStreamkey()" sasuga-btn>reset streamkey</button>
 <p *ngIf="resetStreamkeyResult | isSuccess">Success</p>

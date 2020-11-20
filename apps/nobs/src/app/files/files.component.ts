@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { finalize, map, tap } from 'rxjs/operators';
@@ -13,6 +13,12 @@ import { FilesService } from './files.service';
   styleUrls: ['./files.component.scss']
 })
 export class FilesComponent implements OnInit {
+
+  @Input() fileSelecting = false;
+
+  selectedFileId = '';
+
+  @Output() selectedFileIdChange = new EventEmitter<string>();
 
   uploadBasePath: string;
 
@@ -33,6 +39,13 @@ export class FilesComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.getUploads(params.page, params.limit)
     });
+  }
+
+  selectFile(fileId: string) {
+    if (this.fileSelecting) {
+      this.selectedFileId = fileId;
+      this.selectedFileIdChange.emit(fileId);
+    }
   }
 
   deleteUpload(filename: string) {

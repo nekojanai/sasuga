@@ -4,7 +4,7 @@ import { IUser } from '@sasuga/api-interfaces';
 import { MinioService } from 'nestjs-minio-client';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { IUpload } from './upload';
+import { IClientFile } from './client-file';
 import { Upload } from './upload.entity';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class UploadsService {
     private minioService: MinioService
   ) {}
 
-  upload(files: IUpload[], user: IUser) {
+  upload(files: IClientFile[], user: IUser) {
     const policy1 = {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":["*"]},"Action":["s3:GetBucketLocation","s3:ListBucket","s3:ListBucketMultipartUploads"],"Resource":[`arn:aws:s3:::${user.name}`]},{"Effect":"Allow","Principal":{"AWS":["*"]},"Action":["s3:GetObject","s3:ListMultipartUploadParts","s3:PutObject","s3:AbortMultipartUpload","s3:DeleteObject"],"Resource":[`arn:aws:s3:::${user.name}/*`]}]};
     return this.minioService.client.bucketExists(user.name)
     .then(exists => {
@@ -34,7 +34,7 @@ export class UploadsService {
     return this.minioService.client.removeObjects(user?.name, objectList);
   }
 
-  private async uploadFiles(files: IUpload[], user: IUser) {
+  private async uploadFiles(files: IClientFile[], user: IUser) {
     const uploadedFiles: Upload[] = [];
     for (const file of files) {
       const uuid = uuidv4();

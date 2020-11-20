@@ -9,7 +9,12 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [FilesComponent],
+  declarations: [
+    FilesComponent
+  ],
+  exports: [
+    FilesComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,

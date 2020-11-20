@@ -4,7 +4,9 @@
     "experimentalDecorators": true,
     "types": ["node", "jest"],
     "emitDecoratorMetadata": true,
-    "target": "es2015"
+    "target": "es2017",
+    "module": "CommonJS",
+    "removeComments": true
   },
   "include": [],
   "files": [],

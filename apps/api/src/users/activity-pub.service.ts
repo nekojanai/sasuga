@@ -25,6 +25,7 @@ export class ActivityPubService {
             'id': `https://${this.domain}/api/v1/users/${user.name}`,
             'type': 'Person',
             'preferredUsername': `${user.name}`,
+            'name': `${user.name}`,
             'inbox': `https://${this.domain}/api/v1/users/${user.name}/inbox`,
             'followers': `https://${this.domain}/api/v1/users/${user.name}/followers`,
             'publicKey': {

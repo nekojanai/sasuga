@@ -1,8 +1,9 @@
+import { IUpload } from '@sasuga/api-interfaces';
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from '../users/user.entity';
 
 @Entity()
-export class Upload {
+export class Upload implements IUpload {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

@@ -1,4 +1,4 @@
-export interface IUpload {
+export interface IClientFile {
   fieldname: string,
   originalname: string,
   encoding: string,

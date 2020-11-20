@@ -9,6 +9,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadsService } from '../uploads/uploads.service';
 import { paginate } from 'nestjs-typeorm-paginate';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -20,6 +21,17 @@ export class ProfileController {
     private usersService: UsersService,
     private uploadsService: UploadsService
   ) {}
+
+  @ApiOkResponse({ type: User })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch()
+  update(@Request() req, @Body() data: UpdateProfileDto) {
+    console.log('hellllllloooooo');
+    console.log(data);
+    return from(this.usersService.repo.update(req.user.id, data)).pipe(
+      exhaustMap(_ => this.usersService.repo.findOne(req.user.id))
+    );
+  }
 
   @ApiOkResponse({ type: User })
   @UseInterceptors(ClassSerializerInterceptor)

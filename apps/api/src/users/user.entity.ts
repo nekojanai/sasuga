@@ -1,5 +1,5 @@
 import { IUser } from '@sasuga/api-interfaces';
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Index, BeforeInsert, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Index, BeforeInsert, ManyToMany, JoinTable, OneToMany, ManyToOne } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { UsernameTransformer } from './username.transformer';
 import { PasswordTransformer } from './password.transformer';
@@ -24,6 +24,12 @@ export class User implements IUser {
   @Index()
   @Column({ length: 30, unique: true, transformer: new UsernameTransformer() })
   name: string;
+
+  @Column({ length: 30, default: '' })
+  preferedName: string;
+
+  @Column({type: 'text', default: ''})
+  summary: string;
 
   @ApiHideProperty()
   @Exclude({ toPlainOnly: true })
@@ -63,6 +69,12 @@ export class User implements IUser {
   @OneToMany("Upload","owner")
   uploads: Upload[];
 
+  @ManyToOne("Upload", { eager: true })
+  icon: Upload;
+
+  @ManyToOne("Upload", { eager: true })
+  image: Upload;
+
   @BeforeInsert()
   generateKeys() {
     const pair = crypto.generateKeyPairSync('rsa', {
@@ -78,6 +90,13 @@ export class User implements IUser {
     });
     this.pubkey = pair.publicKey;
     this.privkey = pair.privateKey;
+  }
+
+  @BeforeInsert()
+  setPreferedUsername() {
+    if (!this.preferedName) {
+      this.preferedName = this.name;
+    }
   }
 
 }
