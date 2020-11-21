@@ -1,33 +1,40 @@
-<h3>Channel</h3>
+<h3>Channel Settings</h3>
 <form [formGroup]="userForm" (ngSubmit)="onUserFormSubmit()">
   <label>
     channel name<br>
-    <input sasuga-text-input [value]="(profile | async)?.preferedName" name="preferedName" type="text" formControlName="preferedName"><br>
+    <input sasuga-text-input name="preferedName" type="text" formControlName="preferedName"><br>
   </label>
   <label>
     channel summary<br>
-    <textarea sasuga-text-input [value]="(profile | async)?.summary" name="summary" formControlName="summary"></textarea><br>
+    <textarea sasuga-text-input name="summary" formControlName="summary"></textarea><br>
   </label>
   select channel icon
-  <sasuga-files class="fileSelector" [fileSelecting]="true" (selectedFileIdChange)="selectIconId($event)"></sasuga-files>
+  <sasuga-files class="fileSelector" [mimetypelike]="'image'" [fileSelecting]="true" [(selectedFile)]="selectedIcon"></sasuga-files>
+  <input type="hidden" name="icon" formControlName="icon">
   select channel image
-  <sasuga-files class="fileSelector" [fileSelecting]="true" (selectedFileIdChange)="selectImageId($event)"></sasuga-files>
-  <button sasuga-btn type="submit"  [disabled]="!userForm.valid">save</button>
+  <sasuga-files class="fileSelector" [mimetypelike]="'image'" [fileSelecting]="true" [(selectedFile)]="selectedImage"></sasuga-files>
+  <input type="hidden" name="image" formControlName="image">
+  <button sasuga-btn type="submit"  [disabled]="!userForm.valid || (userFormResult | isLoading)">save</button>
 </form>
+<p *ngIf="userFormResult | isLoading">loading...</p>
+<p *ngIf="userFormResult | isSuccess">Success</p>
+<p *ngIf="userFormResult | isFailure">Failure</p>
 <hr>
 <h3>Reset Password</h3>
 <form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit()">
   <input sasuga-text-input name="password" type="password" formControlName="password">
-  <button sasuga-btn type="submit"  [disabled]="!passwordForm.valid">change password</button>
+  <button sasuga-btn type="submit"  [disabled]="!passwordForm.valid || (passwordFormResult | isLoading)">change password</button>
 </form>
+<p *ngIf="passwordFormResult | isLoading">loading...</p>
 <p *ngIf="passwordFormResult | isSuccess">Success</p>
 <p *ngIf="passwordFormResult | isFailure">Failure</p>
 <hr>
-<h3>StreamKey</h3>
-<input sasuga-text-input readonly [value]="(profile | async)?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
+<h3>Streamkey</h3>
+<input sasuga-text-input readonly [value]="profile?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
 <button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
-<button (click)="resetStreamkey()" sasuga-btn>reset streamkey</button>
+<button (click)="resetStreamkey()" [disabled]="resetStreamkeyResult | isLoading" sasuga-btn>reset streamkey</button>
+<p *ngIf="resetStreamkeyResult | isLoading">loading</p>
 <p *ngIf="resetStreamkeyResult | isSuccess">Success</p>
 <p *ngIf="resetStreamkeyResult | isFailure">Failure</p>
 <hr>
-<sasuga-admin *ngIf="isAdmin | async"></sasuga-admin>
+<sasuga-admin *ngIf="isAdmin"></sasuga-admin>

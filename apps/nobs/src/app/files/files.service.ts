@@ -19,8 +19,8 @@ export class FilesService {
     return this.http.post(this.uploadsBaseUrl,formData, {reportProgress: true, observe: 'events'});
   }
 
-  getUploads(page: number = 1, limit: number = 10) {
-    const params = new HttpParams().set('page', `${page}`).set('limit', `${limit}`);
+  getUploads(page: number = 1, limit: number = 10, mimetypelike?: string) {
+    const params = new HttpParams().set('page', `${page}`).set('limit', `${limit}`).set('mimetypelike', mimetypelike);
     return this.http.get(this.uploadsBaseUrl, {params});
   }
 

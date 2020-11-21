@@ -35,10 +35,6 @@ export interface IUpdateUserDto {
   summary?: string;
 }
 
-export interface IUpdatePasswordDto {
-  password: string;
-}
-
 export interface IReplaceUserDto {
   name: string;
   password: string;

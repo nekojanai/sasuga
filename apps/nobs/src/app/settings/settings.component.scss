@@ -1,5 +1,8 @@
+@import 'variables';
+
 .fileSelector {
   max-height: 400px;
-  max-width: 50vw;
+  max-width: 500px;
   display: block;
+  border: $aqua-primary-color 1px solid;
 }

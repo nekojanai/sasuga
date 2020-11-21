@@ -3,24 +3,29 @@
 <hr>
 files: {{ uploads?.meta?.totalItems | json}}<br>
 <div class="meta">
-  <a class="link" *ngIf="uploads?.meta?.currentPage > 1" (click)="getUploads(+uploads?.meta?.currentPage-1)"><-prev</a> |
-  <a class="link" *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" (click)="getUploads(+uploads?.meta?.currentPage+1)">next-></a>
+  <a class="link" *ngIf="uploads?.meta?.currentPage > 1" (click)="getUploads(+uploads?.meta?.currentPage-1, 10, mimetypelike)"><-prev</a> |
+  <a class="link" *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" (click)="getUploads(+uploads?.meta?.currentPage+1, 10, mimetypelike)">next-></a>
 </div>
 <hr>
 <ul class="files">
-  <li class="file" *ngFor="let upload of uploads?.items">
-    <div class="media" (click)="selectFile(upload.id)" [class.selected]="fileSelecting && (selectedFileId === upload.id)">
-      <img *ngIf="upload.mimetype.startsWith('image')" class="img" [src]="uploadBasePath+upload.filename">
-      <video class="video" controls *ngIf="upload.mimetype.startsWith('video')" [src]="uploadBasePath+upload.filename"></video>
+  <li *ngIf="fileSelecting" class="file none-option" (click)="selectFile()" [class.selected]="fileSelecting && !selectedFile?.id">
+    <span>none</span>
+  </li>
+  <li class="file" *ngFor="let upload of uploads?.items" (click)="selectFile(upload.id)" [class.selected]="fileSelecting && (selectedFile?.id === upload.id)">
+    <div class="media">
+      <img *ngIf="upload.mimetype.startsWith('image')" class="img" loading="lazy" [src]="uploadBasePath+upload.filename">
+      <video preload="none" class="video" controls *ngIf="upload.mimetype.startsWith('video')" [src]="uploadBasePath+upload.filename"></video>
     </div>
-    {{ upload.mimetype }}<br>
-    <a [href]="uploadBasePath+upload.filename" download>download</a><br>
-    <a class="link" (click)="deleteUpload(upload.filename)">delete</a><br>
-    <span>uploaded: {{ upload.createdAt | date:'short'}}</span>
+    <div class="meta" *ngIf="!fileSelecting">
+      {{ upload.mimetype }}<br>
+      <a [href]="uploadBasePath+upload.filename" download>download</a><br>
+      <a class="link" (click)="deleteUpload(upload.filename)">delete</a><br>
+      <span>uploaded: {{ upload.createdAt | date:'short'}}</span>
+    </div>
   </li>
 </ul>
 <hr>
 <div class="meta">
-  <a *ngIf="uploads?.meta?.currentPage > 1" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage-1 }"><-prev</a> |
-  <a *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" [routerLink]="['/files']" [queryParams]="{ page: +uploads?.meta?.currentPage+1 }">next-></a>
+  <a class="link" *ngIf="uploads?.meta?.currentPage > 1" (click)="getUploads(+uploads?.meta?.currentPage-1)"><-prev</a> |
+  <a class="link" *ngIf="uploads?.meta?.currentPage < uploads?.meta?.totalPages" (click)="getUploads(+uploads?.meta?.currentPage+1)">next-></a>
 </div>

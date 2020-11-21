@@ -1,5 +1,5 @@
 import { IUser } from '@sasuga/api-interfaces';
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Index, BeforeInsert, ManyToMany, JoinTable, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Index, BeforeInsert, ManyToMany, JoinTable, OneToMany, ManyToOne, RelationId } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { UsernameTransformer } from './username.transformer';
 import { PasswordTransformer } from './password.transformer';

@@ -1,11 +1,13 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { IUser } from '@sasuga/api-interfaces';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import videojs from 'video.js';
 import { environment } from '../../environments/environment';
 import { GeneralSocket } from '../sockets/general.socket';
+import { AppState } from '../state/app.state';
 import { UserService } from './user.service';
 
 @Component({
@@ -20,6 +22,8 @@ export class UserComponent implements OnInit, OnDestroy {
   user: IUser;
   player: videojs.Player;
   isStreaming = false;
+  uploadBasePath = '';
+  domain = environment.DOMAIN;
 
   get videoContainerElement() {
     return document.getElementById('videojs-container');
@@ -29,7 +33,8 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private generalSocket: GeneralSocket
+    private generalSocket: GeneralSocket,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +45,9 @@ export class UserComponent implements OnInit, OnDestroy {
       if (data.username === this.user?.name) {
         setTimeout(() => this.initUser(), 10000);
       }
+    });
+    this.store.select(s => s.profileState.data?.name).subscribe(name => {
+      this.uploadBasePath = `${environment.S3_BASE_URL}/${name}/`;
     });
   }
 

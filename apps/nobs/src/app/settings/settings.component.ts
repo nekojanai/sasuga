@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { IUser } from '@sasuga/api-interfaces';
+import { IUpload, IUser } from '@sasuga/api-interfaces';
 import { Failure, Initial, Loading, Success } from '@sasuga/remotedata';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -16,14 +16,20 @@ import { SettingsService } from './settings.service';
 })
 export class SettingsComponent implements OnInit {
 
-  isAdmin;
+  isAdmin: boolean;
+  profile: IUser;
 
   streamkeyIsHidden = true;
 
   userForm = new FormGroup({
     preferedName: new FormControl('', [Validators.required]),
-    summary: new FormControl('', [Validators.required])
+    summary: new FormControl('', [Validators.required]),
+    icon: new FormControl(),
+    image: new FormControl()
   });
+
+  selectedIcon: IUpload;
+  selectedImage: IUpload;
 
   passwordForm = new FormGroup({
     password: new FormControl('', [Validators.required])
@@ -33,23 +39,23 @@ export class SettingsComponent implements OnInit {
   passwordFormResult = new Initial<string, any>();
   resetStreamkeyResult = new Initial<string, any>();
 
-  profile = this.store.select(s => s.profileState.data);
-
   constructor(
     private settingsService: SettingsService,
     private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
-    this.isAdmin = this.store.select(s => s.profileState?.data?.isAdmin);
-  }
-
-  selectIconId(event) {
-    console.log(event);
-  }
-
-  selectImageId(event) {
-    console.log(event)
+    this.store.select(s => s.profileState.data?.isAdmin).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
+    this.store.select(s => s.profileState.data).subscribe(user => {
+      if (user) {
+        this.profile = user;
+        this.userForm.patchValue(user);
+        this.selectedIcon = {...user.icon};
+        this.selectedImage = {...user.image};
+      }
+    });
   }
 
   showStreamkey() {
@@ -57,6 +63,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onUserFormSubmit() {
+    this.userForm.patchValue({ icon: this.selectedIcon, image: this.selectedImage });
     this.userFormResult = new Loading(undefined);
     this.settingsService.updateUser(this.userForm.value).pipe(
       catchError(error => {

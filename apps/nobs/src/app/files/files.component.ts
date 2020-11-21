@@ -16,9 +16,11 @@ export class FilesComponent implements OnInit {
 
   @Input() fileSelecting = false;
 
-  selectedFileId = '';
+  @Input() mimetypelike: string;
 
-  @Output() selectedFileIdChange = new EventEmitter<string>();
+  @Input() selectedFile:any = {};
+
+  @Output() selectedFileChange = new EventEmitter<any>();
 
   uploadBasePath: string;
 
@@ -28,34 +30,37 @@ export class FilesComponent implements OnInit {
 
   constructor(
     private filesService: FilesService,
-    private store: Store<AppState>,
-    private route: ActivatedRoute
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
     this.store.select(s => s.profileState.data?.name).subscribe(name => {
       this.uploadBasePath = `${environment.S3_BASE_URL}/${name}/`;
     });
-    this.route.queryParams.subscribe(params => {
-      this.getUploads(params.page, params.limit)
-    });
+    this.getUploads(1, 10, this.mimetypelike);
   }
 
-  selectFile(fileId: string) {
+  selectFile(id: string) {
     if (this.fileSelecting) {
-      this.selectedFileId = fileId;
-      this.selectedFileIdChange.emit(fileId);
+      this.selectedFile = {id};
+      this.selectedFileChange.emit({ id });
     }
   }
 
   deleteUpload(filename: string) {
-    this.filesService.deleteUpload(filename).subscribe(_ => this.getUploads());
+    this.filesService.deleteUpload(filename).subscribe(_ => this.getUploads(1, 10, this.mimetypelike));
   }
 
-  getUploads(page: number = 1, limit: number = 10) {
-    this.filesService.getUploads(page, limit).subscribe((data: any) => {
-      this.uploads = data
-    });
+  getUploads(page: number = 1, limit: number = 10, mimetypelike?: string) {
+    if (mimetypelike) {
+      this.filesService.getUploads(page, limit, mimetypelike).subscribe((data: any) => {
+        this.uploads = data
+      });
+    } else {
+      this.filesService.getUploads(page, limit).subscribe((data: any) => {
+        this.uploads = data
+      });
+    }
   }
 
   filesChange(files) {

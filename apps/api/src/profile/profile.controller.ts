@@ -10,6 +10,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadsService } from '../uploads/uploads.service';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { Like } from 'typeorm';
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -74,8 +75,13 @@ export class ProfileController {
   getUploads(
     @Request() req,
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10
+    @Query('limit') limit: number = 10,
+    @Query('mimetypelike') mimetypelike: string
     ) {
+    console.log(mimetypelike)
+    if (mimetypelike && mimetypelike !== 'undefined') {
+      return paginate(this.uploadsService.uploadRepo, { page, limit }, { where: { mimetype: Like(`%${mimetypelike}%`)}, order: { createdAt: "DESC"}});
+    }
     return paginate(this.uploadsService.uploadRepo, { page, limit }, { order: { createdAt: "DESC"}});
   }
 
