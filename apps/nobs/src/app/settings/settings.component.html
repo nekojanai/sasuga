@@ -1,13 +1,29 @@
+<h3>Streamkey</h3>
+<input sasuga-text-input readonly [value]="profile?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
+<button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
+<button (click)="resetStreamkey()" [disabled]="resetStreamkeyResult | isLoading" sasuga-btn>reset streamkey</button>
+<p *ngIf="resetStreamkeyResult | isLoading">loading</p>
+<p *ngIf="resetStreamkeyResult | isSuccess">Success</p>
+<p *ngIf="resetStreamkeyResult | isFailure">Failure</p>
+<hr>
 <h3>Channel Settings</h3>
 <form [formGroup]="userForm" (ngSubmit)="onUserFormSubmit()">
   <label>
     channel name<br>
-    <input sasuga-text-input name="preferedName" type="text" formControlName="preferedName"><br>
-  </label>
+    <input sasuga-text-input name="preferedName" type="text" formControlName="preferedName">
+  </label><br>
   <label>
     channel summary<br>
-    <textarea sasuga-text-input name="summary" formControlName="summary"></textarea><br>
-  </label>
+    <textarea sasuga-text-input name="summary" formControlName="summary"></textarea>
+  </label><br>
+  <label>
+    color<br>
+    <input sasuga-text-input name="hexColor" type="text" formControlName="hexColor">
+  </label><br>
+  <label>
+    <input sasuga-text-input name="allowGuestsInChat" type="checkbox" formControlName="allowGuestsInChat"/>
+    Allow guests in chat
+  </label><br>
   select channel icon
   <sasuga-files class="fileSelector" [mimetypelike]="'image'" [fileSelecting]="true" [(selectedFile)]="selectedIcon"></sasuga-files>
   <input type="hidden" name="icon" formControlName="icon">
@@ -28,13 +44,5 @@
 <p *ngIf="passwordFormResult | isLoading">loading...</p>
 <p *ngIf="passwordFormResult | isSuccess">Success</p>
 <p *ngIf="passwordFormResult | isFailure">Failure</p>
-<hr>
-<h3>Streamkey</h3>
-<input sasuga-text-input readonly [value]="profile?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
-<button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
-<button (click)="resetStreamkey()" [disabled]="resetStreamkeyResult | isLoading" sasuga-btn>reset streamkey</button>
-<p *ngIf="resetStreamkeyResult | isLoading">loading</p>
-<p *ngIf="resetStreamkeyResult | isSuccess">Success</p>
-<p *ngIf="resetStreamkeyResult | isFailure">Failure</p>
 <hr>
 <sasuga-admin *ngIf="isAdmin"></sasuga-admin>

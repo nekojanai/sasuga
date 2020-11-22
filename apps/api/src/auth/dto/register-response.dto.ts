@@ -20,6 +20,8 @@ export class RegisterResponseDto implements IRegisterResponseDto {
   streamkey: string;
   isStreaming: boolean;
   isActive: boolean;
+  allowGuestsInChat: boolean;
+  hexColor: string;
   pubkey: string;
   icon: IUpload;
   image: IUpload;

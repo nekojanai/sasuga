@@ -24,6 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
   isStreaming = false;
   uploadBasePath = '';
   domain = environment.DOMAIN;
+  roomCount = 0;
 
   get videoContainerElement() {
     return document.getElementById('videojs-container');
@@ -33,8 +34,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private generalSocket: GeneralSocket,
-    private store: Store<AppState>
+    private generalSocket: GeneralSocket
   ) { }
 
   ngOnInit(): void {
@@ -45,9 +45,6 @@ export class UserComponent implements OnInit, OnDestroy {
       if (data.username === this.user?.name) {
         setTimeout(() => this.initUser(), 10000);
       }
-    });
-    this.store.select(s => s.profileState.data?.name).subscribe(name => {
-      this.uploadBasePath = `${environment.S3_BASE_URL}/${name}/`;
     });
   }
 
@@ -60,6 +57,7 @@ export class UserComponent implements OnInit, OnDestroy {
       if (user && user.isActive) {
         this.user = user;
         this.isStreaming = user.isStreaming;
+        this.uploadBasePath = `${environment.S3_BASE_URL}/${user.name}/`;
         if (this.isStreaming) {
           setTimeout(() => this.initPlayer(user.name),1);
         }
@@ -75,7 +73,7 @@ export class UserComponent implements OnInit, OnDestroy {
       type: 'application/x-mpegurl'
     };
     const options = {
-      poster: '/assets/bg.gif',
+      poster: this.user?.image ? this.uploadBasePath+this.user?.image?.filename : '/assets/bg.gif',
       autoplay: true,
       muted: true,
       controls: true,
@@ -123,6 +121,10 @@ export class UserComponent implements OnInit, OnDestroy {
       this.videoContainerElement.appendChild(elm);
       return elm;
     }
+  }
+
+  setRoomCount(count) {
+    this.roomCount = count;
   }
 
   ngOnDestroy() {

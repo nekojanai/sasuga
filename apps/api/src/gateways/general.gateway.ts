@@ -22,18 +22,17 @@ export class GeneralGateway implements OnGatewayInit, OnGatewayConnection, OnGat
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Client ${client.id} disconnected.`);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client ${client.id} connected.`)
+    (client as any)._user = 'nyaaa~';
   }
 
   afterInit(server: Server) {}
 
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    this.logger.log('got'+payload);
-    return 'Hello world!';
+  @SubscribeMessage('hey')
+  hey(client: any, data: any) {
+    client.emit('hey', (client as any)._user);
   }
+
 }

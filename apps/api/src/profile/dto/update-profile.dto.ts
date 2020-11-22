@@ -1,5 +1,5 @@
 import { IUpdateProfileDto, IUpload } from '@sasuga/api-interfaces';
-import { IsObject, IsString } from 'class-validator';
+import { IsBoolean, IsObject, IsString } from 'class-validator';
 
 export class UpdateProfileDto implements IUpdateProfileDto {
   @IsString()
@@ -10,4 +10,8 @@ export class UpdateProfileDto implements IUpdateProfileDto {
   icon?: IUpload;
   @IsObject()
   image?: IUpload;
+  @IsBoolean()
+  allowGuestsInChat?: boolean;
+  @IsString()
+  hexColor?: string;
 }

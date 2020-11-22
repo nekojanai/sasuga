@@ -16,6 +16,8 @@ export interface IUser {
   password: string;
   icon: IUpload;
   image: IUpload;
+  allowGuestsInChat: boolean;
+  hexColor: string;
 }
 
 export interface ICreateUserDto {
@@ -25,6 +27,8 @@ export interface ICreateUserDto {
   summary?: string;
   isAdmin?: boolean;
   isActive?: boolean;
+  allowGuestsInChat?: boolean;
+  hexColor?: string;
 }
 
 export interface IUpdateUserDto {
@@ -33,6 +37,8 @@ export interface IUpdateUserDto {
   isActive? :boolean;
   preferedName?: string;
   summary?: string;
+  allowGuestsInChat?: boolean;
+  hexColor?: string;
 }
 
 export interface IReplaceUserDto {
@@ -42,4 +48,6 @@ export interface IReplaceUserDto {
   isActive?: boolean;
   preferedName?: string;
   summary?: string;
+  allowGuestsInChat?: boolean;
+  hexColor?: string;
 }

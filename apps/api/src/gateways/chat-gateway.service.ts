@@ -1,25 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { join } from 'path';
+import { AuthService } from '../auth/auth.service';
+import { UsersService } from '../users/users.service';
 
 export interface IChatUser {
   socketId: string;
   userId?: string;
   username?: string;
+  hexColor: string;
   partOfRooms: string[];
 }
 
 @Injectable()
 export class ChatGatewayService {
 
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService
+  ) {}
+
   private users: IChatUser[] = [];
 
-  addUser(socketId: string): IChatUser | undefined {
-    if(!this.users.find(u => u.socketId === socketId)) {
-      const user = {socketId, partOfRooms: []};
-      this.users.push(user);
-      return user;
-    } else {
-      return undefined;
-    }
+  async addGuest(socketId: string, username: string, room: string): Promise<IChatUser | undefined> {
+    const roomUser  = await this.usersService.findOne({name: room});
+    if (!roomUser || !roomUser.isActive || !roomUser.allowGuestsInChat || !this.isUsernameAvailable(this.usernameTransformer(username))) { return undefined }
+    const user = {hexColor: this.getHexColor(), partOfRooms: [room], socketId, username: this.usernameTransformer(username)};
+    this.users.push(user);
+    return user;
+  }
+
+  async addUser(socketId: string, token: string, room: string): Promise<IChatUser | undefined> {
+    const roomUser  = await this.usersService.findOne({name: room});
+    if (!roomUser || !roomUser.isActive) { return undefined }
+    const joinedUser = await this.authService.validateTokenGetUser(token).toPromise();
+    if (!joinedUser || !joinedUser.isActive) { return undefined }
+    const user = {hexColor: joinedUser.hexColor, partOfRooms: [room], socketId, username: joinedUser.name, userId: joinedUser.id};
+    this.users.push(user);
+    return user;
   }
 
   removeUser(socketId: string): IChatUser | undefined {
@@ -31,57 +48,25 @@ export class ChatGatewayService {
     }
   }
 
-  addUserToRoom(socketId: string, room: string): IChatUser | undefined {
-    const index = this.users.findIndex(u => u.socketId === socketId);
-    if(index !== -1) {
-      const user = this.users[index];
-      if(user.partOfRooms && !user.partOfRooms.find(r => r === room)) {
-        const newUser = {...user, partOfRooms: [...user.partOfRooms,room]};
-        this.users[index] = newUser;
-        return newUser;
-      } else {
-        return undefined;
-      }
-    } else {
-      return undefined;
-    }
+  getUserInRoom(socketId: string, room: string): IChatUser | undefined {
+    return this.users.find(u => (u.socketId === socketId) && u.partOfRooms.includes(room));
   }
 
-  isInRoom(socketId: string, room: string): IChatUser | undefined {
-    const index = this.users.findIndex(u => u.socketId === socketId);
-    if(index === -1) { return undefined };
-    const user = this.users[index];
-    if (!user.partOfRooms.find(r => r === room)) { return undefined };
-    return user;
+  private isUsernameAvailable(username: string): boolean {
+    return !this.users.find(u => u.username.includes(username));
   }
 
-  removeUserFromRoom(socketId: string, room: string): IChatUser | undefined {
-    const index = this.users.findIndex(u => u.socketId === socketId);
-    if(index !== -1) {
-      const user = this.users[index];
-      const roomIndex = user.partOfRooms?.findIndex(r => r === room);
-      if(roomIndex !== -1) {
-        user.partOfRooms.splice(roomIndex,1);
-        const newUser = {...user, partOfRooms: user.partOfRooms};
-        this.users[index] = newUser;
-        return newUser;
-      } else {
-        return undefined;
-      }
-    } else {
-      return undefined;
+  private getHexColor(): string {
+    const letters = "0123456789ABCDEF";
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[(Math.floor(Math.random() * 16))];
     }
+    return color;
   }
 
-  setUsername(socketId: string, username: string): IChatUser | undefined {
-    const index = this.users.findIndex(u => u.socketId === socketId);
-    if(index !== -1) {
-      const user = this.users[index];
-      const newUser = {...user, username };
-      this.users[index] = newUser;
-      return newUser;
-    } else {
-      return undefined;
-    }
+  private usernameTransformer(username: string) {
+    return `[Guest]${username ? username.replace(/[\W_]/gi,'').toLowerCase() : 'user'+Math.floor(Math.random() * 10000)}`
   }
+
 }

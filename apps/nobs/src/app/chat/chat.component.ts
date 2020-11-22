@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { from, Subject } from 'rxjs';
@@ -15,13 +15,17 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   @Input() channelname = 'default';
 
+  @Input() guestsAllowed = true;
+
+  @Output() roomCount = new EventEmitter<number>();
+
   ngUnsubscribe = new Subject();
 
   messages = [];
 
   ready = false;
 
-  guestName: string;
+  guestname: string;
 
   token: string;
 
@@ -30,7 +34,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   messageForm = new FormGroup({
-    message: new FormControl('',[Validators.required])
+    message: new FormControl('',[
+      Validators.required,
+      Validators.maxLength(128)
+    ])
   });
 
   constructor(
@@ -44,44 +51,43 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   messageFormSubmit() {
     if (this.ready) {
-      this.chatSocket.emit('sendMessage', { room: this.channelname, message: this.messageForm.value.message});
+      this.chatSocket.emit('sendMessageToRoom', { room: this.channelname, message: this.messageForm.value.message.substring(0,128)});
     } else {
-      this.guestName = this.messageForm.value.message;
-      this.chatSocket.emit('joinRoomAsGuest', { room: this.channelname, name: this.guestName});
+      this.guestname = this.messageForm.value.message;
+      this.chatSocket.emit('requestWriteAsGuestInRoom', { username: this.guestname, room: this.channelname });
     }
     this.messageForm.reset({ message: ''});
   }
 
   ngOnInit(): void {
-    this.chatSocket.on('ready',() => {this.ready = true});
-    this.store.select(s => s.tokenState.data).subscribe(token => {
-      if (token) {
-        this.token = token;
-        this.chatSocket.emit('joinRoomWithToken', {room: this.channelname, token });
-      }
-    });
+    this.chatSocket.emit('requestReadInRoom', { room: this.channelname });
+    this.store.select(s => s.tokenState.data).subscribe(token => this.token = token);
     this.chatSocket.fromEvent('message').pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe((msg: any) => {
       this.addMessage(msg);
       setTimeout(this.scroll, 1);
     });
-    this.chatSocket.fromEvent('disconnect').pipe(
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe((msg: any) => {
-      if (this.ready) {
-        this.ready = false;
-      }
-    });
     this.chatSocket.fromEvent('reconnect').pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe((msg: any) => {
-      if (this.token) {
-        this.chatSocket.emit('joinRoomWithToken', {room: this.channelname, token: this.token });
-      } else if (this.guestName) {
-        this.chatSocket.emit('joinRoomAsGuest', { room: this.channelname, name: this.guestName});
+      this.chatSocket.emit('requestReadInRoom', { room: this.channelname });
+      if(this.token) {
+        this.chatSocket.emit('requestWriteAsUserInRoom', { token: this.token, room: this.channelname });
+      } else {
+        this.chatSocket.emit('requestWriteAsGuestInRoom', { username: this.guestname, room: this.channelname });
       }
     });
+    this.chatSocket.fromEvent('ready').pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(_ => this.ready = true);
+    this.chatSocket.fromEvent('roomCount').pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe((count: number) => this.roomCount.emit(count));
+    if (this.token) {
+      this.chatSocket.emit('requestWriteAsUserInRoom', { token: this.token, room: this.channelname });
+    }
+    this.chatSocket.emit('requestEmitRoomCount', { room: this.channelname });
   }
 
   scroll() {
@@ -89,7 +95,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatSocket.emit('leaveRoom', {room: this.channelname});
+    this.chatSocket.emit('requestLeaveRoom', { room: this.channelname });
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

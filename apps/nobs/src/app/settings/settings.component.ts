@@ -25,7 +25,9 @@ export class SettingsComponent implements OnInit {
     preferedName: new FormControl('', [Validators.required]),
     summary: new FormControl('', [Validators.required]),
     icon: new FormControl(),
-    image: new FormControl()
+    image: new FormControl(),
+    hexColor: new FormControl(),
+    allowGuestsInChat: new FormControl()
   });
 
   selectedIcon: IUpload;

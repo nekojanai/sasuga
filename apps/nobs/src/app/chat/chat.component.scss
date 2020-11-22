@@ -5,13 +5,18 @@
   flex-direction: column;
   overflow:hidden;
   height: 100%;
-  background-color: $aqua-secondary-color;
-  color: $text-on-aqua-primary-color;
   z-index: 500;
 }
 
 .message {
   word-wrap: break-word;
+  >.sender {
+    margin-right: 10px;
+    text-shadow: 1px 1px white;
+  }
+  >.content {
+
+  }
 }
 
 .chat {

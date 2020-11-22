@@ -26,6 +26,10 @@ export class AuthService {
     )
   }
 
+  issueToken(data: any) {
+    return this.jwtService.sign(data);
+  }
+
   validateCredentialsAndIssueToken(name: string, password: string): Observable<any> {
     return this.usersService.validate(name, password).pipe(
       map(user => user ? { token: this.jwtService.sign({ sub: user.id }) } : undefined )

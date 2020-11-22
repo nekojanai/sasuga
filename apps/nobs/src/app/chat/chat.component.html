@@ -1,7 +1,10 @@
 <div id="chatarea" class="chat">
-  <div class="message" *ngFor="let message of messages">{{message.sender}} {{message.message}}</div>
+  <div class="message" *ngFor="let message of messages">
+    <span [style.color]="message.hexColor" class="sender" *ngIf="message.sender"><span *ngIf="message.sender === channelname">📹</span>{{message.sender}}</span>
+    <span class="content" *ngIf="message.message">{{message.message}}</span>
+  </div>
 </div>
 <form [formGroup]="messageForm" (ngSubmit)="messageFormSubmit()">
-  <input sasuga-text-input type="text" formControlName="message" [placeholder]="!ready ? 'choose username' : 'Just landed in L.A.'">
+  <input sasuga-text-input type="text" formControlName="message" [readOnly]="!ready && !guestsAllowed" [placeholder]="!ready ? (guestsAllowed ? 'choose username' : 'guest chat disabled') : 'Just landed in L.A.'">
   <button sasuga-btn type="submit" [disabled]="!messageForm.valid">{{!ready ? 'join' : 'send'}}</button>
 </form>

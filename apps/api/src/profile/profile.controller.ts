@@ -80,9 +80,9 @@ export class ProfileController {
     ) {
     console.log(mimetypelike)
     if (mimetypelike && mimetypelike !== 'undefined') {
-      return paginate(this.uploadsService.uploadRepo, { page, limit }, { where: { mimetype: Like(`%${mimetypelike}%`)}, order: { createdAt: "DESC"}});
+      return paginate(this.uploadsService.uploadRepo, { page, limit }, { where: { owner: req.user.id, mimetype: Like(`%${mimetypelike}%`)}, order: { createdAt: "DESC"}});
     }
-    return paginate(this.uploadsService.uploadRepo, { page, limit }, { order: { createdAt: "DESC"}});
+    return paginate(this.uploadsService.uploadRepo, { page, limit }, { where: { owner: req.user.id }, order: { createdAt: "DESC"}});
   }
 
   @Delete('uploads/:filename')

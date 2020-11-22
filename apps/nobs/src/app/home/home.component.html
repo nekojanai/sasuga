@@ -4,8 +4,18 @@
 <ng-container *ngIf="streamsResult | isSuccess">
   <ng-container *ngIf="streamsResult.data.meta.totalItems > 0; else noitems">
     <ng-container *ngFor="let user of streamsResult.data.items">
-      {{ user.name }} is streaming
-      <a [routerLink]="'/user/'+user.name">watch {{user.name}}</a><br>
+      <div class="profile" [routerLink]="'/user/'+user.name">
+        <div class="name-icon">
+          <div class="icon" [style.background-image]="user?.icon ? 'url('+s3_url+'/'+user?.name+'/'+user?.icon?.filename+')' : ''"></div>
+          <div class="name">{{user?.preferedName}}<br><small class="handle">@{{user?.name}}@{{domain}}</small></div><br>
+          <div class="live-badge" *ngIf="user?.isStreaming">
+            <div class="live-badge-inner">
+              🔴 LIVE
+            </div>
+          </div>
+        </div>
+        <div class="summary">{{user?.summary}}</div>
+      </div>
     </ng-container>
   </ng-container>
   <ng-template #noitems>

@@ -1,14 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { IUser } from '@sasuga/api-interfaces';
 import { Failure, Initial, Success } from '@sasuga/remotedata';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AppState } from '../state/app.state';
-import { InstanceConfigActions } from '../state/instance-config';
 import { HomeService } from './home.service';
-import { Socket } from 'ngx-socket-io';
 import { GeneralSocket } from '../sockets/general.socket';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'sasuga-home',
@@ -19,7 +15,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   streamsResult = new Initial<any, any>();
 
-  interval = undefined;
+  domain = environment.DOMAIN;
+  s3_url = environment.S3_BASE_URL;
 
 
   constructor(
@@ -37,9 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  ngOnDestroy() {
-    clearInterval(this.interval);
-  }
+  ngOnDestroy() {}
 
   getCurrentlyStreaming(options?: {page?: number, limit?: number}) {
     this.homeService.get(options).pipe(

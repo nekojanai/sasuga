@@ -5,6 +5,8 @@ export interface IUpdateProfileDto {
   summary?: string;
   icon?: IUpload;
   image?: IUpload;
+  allowGuestsInChat?: boolean;
+  hexColor?: string;
 }
 
 export interface IUpdatePasswordDto {

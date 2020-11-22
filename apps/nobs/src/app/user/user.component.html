@@ -1,5 +1,7 @@
-<div class="video" id="videojs-container" *ngIf="user">
-  <video id="videojs" class="video-js hidden" controls muted playsinline preload="none"></video>
+<div class="video"  *ngIf="user">
+  <div id="videojs-container">
+    <video id="videojs" class="video-js hidden" controls muted playsinline preload="none"></video>
+  </div>
   <div *ngIf="!isStreaming" class="offline" [style.background-image]="user?.image ? 'url('+uploadBasePath+user?.image?.filename+')' : ''">
     <div class="inner-offline">offline</div>
   </div>
@@ -7,10 +9,15 @@
     <div class="name-icon">
       <div class="icon" [style.background-image]="user?.icon ? 'url('+uploadBasePath+user?.icon?.filename+')' : ''"></div>
       <div class="name">{{user?.preferedName}}<br><small class="handle">@{{user?.name}}@{{domain}}</small></div><br>
+      <div class="live-badge">
+        <div class="live-badge-inner">
+          <span class="live" *ngIf="user?.isStreaming">🔴 LIVE</span> 👁{{roomCount}}
+        </div>
+      </div>
     </div>
     <div class="summary">{{user?.summary}}</div>
   </div>
 </div>
 <div class="chat">
-  <sasuga-chat *ngIf="user" [channelname]="user?.name"></sasuga-chat>
+  <sasuga-chat *ngIf="user" [channelname]="user?.name" (roomCount)="setRoomCount($event)" [guestsAllowed]="user?.allowGuestsInChat"></sasuga-chat>
 </div>

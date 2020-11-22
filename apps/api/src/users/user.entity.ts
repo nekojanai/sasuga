@@ -50,6 +50,12 @@ export class User implements IUser {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({ default: true })
+  allowGuestsInChat: boolean;
+
+  @Column({ default: '#ffffff' })
+  hexColor: string;
+
   @Column('varchar', {
 		length: 4096,
 	})
