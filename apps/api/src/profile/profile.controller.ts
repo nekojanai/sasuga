@@ -28,7 +28,9 @@ export class ProfileController {
   @Patch()
   update(@Request() req, @Body() data: UpdateProfileDto) {
     return from(this.usersService.repo.update(req.user.id, data)).pipe(
-      exhaustMap(_ => this.usersService.repo.findOne(req.user.id))
+      exhaustMap(_ => from(this.usersService.repo.findOne(req.user.id)).pipe(
+        map(user => ({...user, password: '', privkey: ''}))
+      ))
     );
   }
 
@@ -46,15 +48,20 @@ export class ProfileController {
   @Patch('reset-password')
   updatePassword(@Request() req, @Body() data: UpdatePasswordDto) {
     return from(this.usersService.repo.update(req.user.id, data)).pipe(
-      exhaustMap(_ => this.usersService.repo.findOne(req.user.id))
+      exhaustMap(_ => from(this.usersService.repo.findOne(req.user.id)).pipe(
+        map(user => ({...user, password: '', privkey: ''}))
+      ))
     );
   }
 
   @ApiOkResponse({ type: User })
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post('reset-streamkey')
   resetStreamKey(@Request() req) {
     return from(this.usersService.repo.update(req.user.id, { streamkey: ''})).pipe(
-      exhaustMap(_ => this.usersService.repo.findOne(req.user.id))
+      exhaustMap(_ => from(this.usersService.repo.findOne(req.user.id)).pipe(
+        map(user => ({...user, password: '', privkey: ''}))
+      ))
     );
   }
 

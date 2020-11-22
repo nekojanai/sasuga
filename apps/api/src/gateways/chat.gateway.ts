@@ -68,7 +68,15 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage('requestLeaveRoom')
   requestLeaveRoom(client: Socket, data: { room: string }) {
     const user = this.chatGatewayService.removeUser(client.id);
-    client.leave(data?.room);
+    if (user) {
+      client.leave(data?.room);
+      user.partOfRooms.forEach(async room => {
+        this.wss.to(room).emit('message', { sender: '', message: `${user.username} left`, hexColor: '' });
+        (this.wss.in(room) as any).clients((err, clients) => {
+          this.wss.to(room).emit('roomCount', clients.length)
+        });
+      });
+    }
   }
 
   @SubscribeMessage('requestEmitRoomCount')
