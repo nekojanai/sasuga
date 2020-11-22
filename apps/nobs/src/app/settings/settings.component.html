@@ -1,3 +1,10 @@
+<h3>UI</h3>
+<label>
+  <input type="checkbox" name="disableUIEffect" [(ngModel)]="disableUIEffect"/>
+  Enable UI Effect
+</label><br>
+<small>reload page to see result</small>
+<hr>
 <h3>Streamkey</h3>
 <small>streamurl: {{streamurl}}</small>
 <input sasuga-text-input readonly [value]="profile?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './state/app.state';
 import { InstanceConfigActions } from './state/instance-config';
@@ -10,6 +10,9 @@ import { TokenActions } from './state/token';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  effectDisabled = !!localStorage.getItem('effect-disabled');
+
   constructor(
     private store: Store<AppState>
   ) {}

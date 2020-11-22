@@ -24,6 +24,14 @@ export class SettingsComponent implements OnInit {
 
   streamurl = environment.STREAMING_URL;
 
+  get disableUIEffect() {
+    return !!localStorage.getItem('effect-disabled')
+  }
+
+  set disableUIEffect(value: boolean) {
+    value ? localStorage.setItem('effect-disabled', 'true') : localStorage.removeItem('effect-disabled')
+  }
+
   userForm = new FormGroup({
     preferedName: new FormControl('', [Validators.required]),
     summary: new FormControl('', [Validators.required]),
