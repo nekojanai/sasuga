@@ -17,6 +17,7 @@ export const environment = {
   // MINIO S3
   // FOR AWS S3 JUST USE s3.amazonaws.com as S3_ENDPOINT
   // AND LEAVE S3_PORT AND S3_USESSL BLANK
+  S3_PUBLIC_URL:'localhost',
   S3_ENDPOINT:'localhost',
   S3_PORT:9000,
   S3_USESSL:false,

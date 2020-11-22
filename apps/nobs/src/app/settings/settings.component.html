@@ -1,4 +1,5 @@
 <h3>Streamkey</h3>
+<small>streamurl: {{streamurl}}</small>
 <input sasuga-text-input readonly [value]="profile?.streamkey" [type]="streamkeyIsHidden ? 'password' : 'text'">
 <button (click)="showStreamkey()" sasuga-btn>{{streamkeyIsHidden ? 'show' : 'hide'}}</button>
 <button (click)="resetStreamkey()" [disabled]="resetStreamkeyResult | isLoading" sasuga-btn>reset streamkey</button>

@@ -27,8 +27,6 @@ export class ProfileController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch()
   update(@Request() req, @Body() data: UpdateProfileDto) {
-    console.log('hellllllloooooo');
-    console.log(data);
     return from(this.usersService.repo.update(req.user.id, data)).pipe(
       exhaustMap(_ => this.usersService.repo.findOne(req.user.id))
     );

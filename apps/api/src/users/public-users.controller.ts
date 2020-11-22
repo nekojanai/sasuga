@@ -26,7 +26,8 @@ export class PublicUsersController {
   }
 
   @Post(':username/inbox')
-  inbox(@Param('username') username: string, @Body() data) {
-    this.logger.log(data);
+  inbox(@Param('username') username: string, @Body() data: any, @Req() req) {
+    this.logger.log(JSON.stringify(data));
+    this.logger.log(JSON.stringify(req))
   }
 }

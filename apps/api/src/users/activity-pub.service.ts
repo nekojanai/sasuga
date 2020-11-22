@@ -8,7 +8,7 @@ import { UsersService } from './users.service';
 export class ActivityPubService {
 
   domain = environment.DOMAIN;
-  s3_endpoint = environment.S3_ENDPOINT;
+  s3_public_url = environment.S3_PUBLIC_URL;
 
   constructor(
     private usersService: UsersService
@@ -25,7 +25,7 @@ export class ActivityPubService {
             ],
             id: `https://${this.domain}/api/v1/users/${user.name}`,
             type: 'Person',
-            preferredUsername: `${user.name}`,
+            preferredUsername: `${user.preferedName}`,
             name: `${user.name}`,
             inbob: `https://${this.domain}/api/v1/users/${user.name}/inbox`,
             followers: `https://${this.domain}/api/v1/users/${user.name}/followers`,
@@ -37,12 +37,12 @@ export class ActivityPubService {
             summary: user.summary,
             'icon': (user.icon ? {
               type: 'Image',
-              url: `https://${this.s3_endpoint}/${user.name}/${user.icon.filename}`,
+              url: `https://${this.s3_public_url}/${user.name}/${user.icon.filename}`,
               sensitive: false
             } : undefined),
             'image': (user.image ? {
               type: 'Image',
-              url: `https://${this.s3_endpoint}/${user.name}/${user.image.filename}`,
+              url: `https://${this.s3_public_url}/${user.name}/${user.image.filename}`,
               sensitive: false
             } : undefined)
           };

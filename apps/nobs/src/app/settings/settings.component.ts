@@ -5,6 +5,7 @@ import { IUpload, IUser } from '@sasuga/api-interfaces';
 import { Failure, Initial, Loading, Success } from '@sasuga/remotedata';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { AppState } from '../state/app.state';
 import { ProfileActions } from '../state/profile';
 import { SettingsService } from './settings.service';
@@ -20,6 +21,8 @@ export class SettingsComponent implements OnInit {
   profile: IUser;
 
   streamkeyIsHidden = true;
+
+  streamurl = environment.STREAMING_URL;
 
   userForm = new FormGroup({
     preferedName: new FormControl('', [Validators.required]),
